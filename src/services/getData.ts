@@ -8,5 +8,6 @@ export const getUserRole = async (email: string) => {
     return res.data;
   } catch (error) {
     console.log(error);
+    return {};
   }
 };
