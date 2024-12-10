@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { CgSpinner } from "react-icons/cg";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 interface RegisterFormData {
@@ -16,19 +17,33 @@ interface RegisterFormData {
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<RegisterFormData>();
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log(data);
+    setLoading(true);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, data);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/register`,
+        data
+      );
+      if (res.data.status === 200) {
+        reset();
+        setLoading(false);
+        return toast.success("Registration successful!");
+      } else {
+        setLoading(false);
+        return toast.error(res.data.message || "Something went wrong!");
+      }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong!");
+      setLoading(false);
     }
   };
 
@@ -159,9 +174,14 @@ const RegisterPage = () => {
           <div>
             <button
               type="submit"
+              disabled={loading}
               className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Register
+              {loading ? (
+                <CgSpinner className="animate-spin text-xl" />
+              ) : (
+                "Register"
+              )}
             </button>
           </div>
         </form>
