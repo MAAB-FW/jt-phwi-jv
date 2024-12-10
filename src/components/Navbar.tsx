@@ -146,7 +146,7 @@ const Navbar: React.FC = () => {
         <div className="sm:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <Link
-              href="/lessons"
+              href="/lesson"
               className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
             >
               Lessons
