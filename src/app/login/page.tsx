@@ -1,8 +1,11 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { CgSpinner } from "react-icons/cg";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 interface LoginFormData {
@@ -12,15 +15,38 @@ interface LoginFormData {
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
-    // Handle login logic here
+  const onSubmit = async (data: LoginFormData) => {
+    setLoading(true);
+    const { email, password } = data;
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (res?.error) {
+        setLoading(false);
+        return toast.error(res.error || "Invalid credentials!");
+      } else {
+        setLoading(false);
+        toast.success("Login successful! Redirecting to home page...");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -104,9 +130,10 @@ export default function LoginPage() {
           <div>
             <button
               type="submit"
+              disabled={loading}
               className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Log in
+              {loading ? <CgSpinner className="animate-spin" /> : "Log in"}
             </button>
           </div>
         </form>
