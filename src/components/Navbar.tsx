@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
             <div className="ml-10 flex items-center space-x-4">
               {/* User Links */}
               <Link
-                href="/lessons"
+                href="/lesson"
                 className="rounded-md px-3 py-2 text-gray-300 hover:text-white"
               >
                 Lessons
