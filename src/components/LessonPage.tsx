@@ -162,7 +162,7 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-1">
           <button
             onClick={handlePrevious}
             disabled={currentIndex === 0}
@@ -176,7 +176,7 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
             Previous
           </button>
 
-          <span className="text-gray-600">
+          <span className="text-nowrap text-gray-600">
             {currentIndex + 1} of {vocabularyList.length}
           </span>
 
@@ -193,10 +193,10 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
             <FaAngleRight className="ml-2 h-5 w-5" />
           </button>
           {hasViewedAll && (
-            <div className="mt-8 text-center">
+            <div className="mt-4 text-center">
               <button
                 onClick={handleCompletion}
-                className="animate-bounce rounded-lg bg-green-600 px-8 py-3 font-semibold text-white shadow-lg transition-colors hover:bg-green-700"
+                className="animate-bounce rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-green-700 sm:text-base"
               >
                 Complete Lesson! 🎉
               </button>
