@@ -1,12 +1,14 @@
+"use client"
+import { SessionProvider } from "next-auth/react";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <SessionProvider>
       {children}
       <Toaster position="top-center" reverseOrder={true} />
-    </div>
+    </SessionProvider>
   );
 };
 
