@@ -1,5 +1,8 @@
 "use client";
-import React, { useState } from "react";
+
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import ReactConfetti from "react-confetti";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 // import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 
@@ -13,6 +16,13 @@ export default Page;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function LessonPage({ lessonNo }: { lessonNo: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [hasViewedAll, setHasViewedAll] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: typeof window !== "undefined" ? window.innerWidth : 0,
+    height: typeof window !== "undefined" ? window.innerHeight : 0,
+  });
+  const router = useRouter();
 
   // Sample vocabulary data
   const vocabularyList = [
@@ -73,10 +83,33 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleNext = () => {
-    setCurrentIndex((prev) =>
-      prev < vocabularyList.length - 1 ? prev + 1 : prev
-    );
+    setCurrentIndex((prev) => {
+      const newIndex = prev < vocabularyList.length - 1 ? prev + 1 : prev;
+      if (newIndex === vocabularyList.length - 1) {
+        setHasViewedAll(true);
+      }
+      return newIndex;
+    });
+  };
+
+  const handleCompletion = () => {
+    setShowConfetti(true);
+    setTimeout(() => {
+      router.push("/lesson");
+    }, 3000);
   };
 
   const pronounceWord = (word: string) => {
@@ -88,7 +121,18 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
   const currentWord = vocabularyList[currentIndex];
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8 sm:px-6 lg:px-8">
+    <div className="px-4 py-8 sm:px-6 lg:px-8">
+      {showConfetti && (
+        <div className="pointer-events-none fixed inset-0 z-50">
+          <ReactConfetti
+            width={windowDimensions.width}
+            height={windowDimensions.height}
+            recycle={true}
+            numberOfPieces={500}
+            style={{ position: "fixed", top: 0, left: 0 }}
+          />
+        </div>
+      )}
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-8 text-center text-3xl font-bold text-gray-900">
           Vocabulary Lesson
@@ -151,13 +195,23 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
             disabled={currentIndex === vocabularyList.length - 1}
             className={`flex items-center rounded-md px-4 py-2 ${
               currentIndex === vocabularyList.length - 1
-                ? "cursor-not-allowed bg-gray-200 text-gray-400"
+                ? "hidden cursor-not-allowed bg-gray-200 text-gray-400"
                 : "bg-indigo-600 text-white hover:bg-indigo-700"
             }`}
           >
             Next
             <FaAngleRight className="ml-2 h-5 w-5" />
           </button>
+          {hasViewedAll && (
+            <div className="mt-8 text-center">
+              <button
+                onClick={handleCompletion}
+                className="animate-bounce rounded-lg bg-green-600 px-8 py-3 font-semibold text-white shadow-lg transition-colors hover:bg-green-700"
+              >
+                Complete Lesson! 🎉
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 rounded-lg bg-yellow-50 p-4">
