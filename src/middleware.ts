@@ -21,11 +21,15 @@ export const middleware = async (request: NextRequest) => {
   }
   if (token.email) {
     const { role } = await getUserRole(token.email);
-    if (role === "admin" && (pathname === "/" || pathname === "/lessons")) {
-      return NextResponse.redirect("/dashboard");
+    if (role === "admin" && pathname === "/") {
+      return NextResponse.redirect(
+        `${process.env.NEXT_PUBLIC_API_URL}/dashboard`
+      );
     }
-    if (role === "user" && (pathname === "/dashboard" || pathname === "/")) {
-      return NextResponse.redirect("/lessons");
+    if (role === "user" && (pathname === "/" || pathname === "/dashboard")) {
+      return NextResponse.redirect(
+        `${process.env.NEXT_PUBLIC_API_URL}/lessons`
+      );
     }
   }
 
