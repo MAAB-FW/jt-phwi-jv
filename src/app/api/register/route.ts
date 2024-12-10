@@ -1,10 +1,17 @@
 import { hashSync } from "bcrypt";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "../../../lib/connectDB";
 
-export const POST = async (request) => {
+interface UserData {
+  email: string;
+  password: string;
+  name: string;
+  photoUrl: string;
+}
+
+export const POST = async (request: NextRequest) => {
   const db = await connectDB();
-  const userData = await request.json();
+  const userData: UserData = await request.json();
   const userCollection = await db.collection("users");
   try {
     const user = await db
