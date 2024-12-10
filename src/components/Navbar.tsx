@@ -1,5 +1,7 @@
 "use client";
 
+import { getUserRole } from "@/services/getData";
+import { useQuery } from "@tanstack/react-query";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,11 +13,20 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
 
+  const { data: role } = useQuery({
+    queryKey: ["userRole", data?.user?.email],
+    queryFn: async () => {
+      if (data?.user?.email) {
+        const { role } = await getUserRole(data.user.email);
+        return role;
+      }
+    },
+    enabled: !!data?.user?.email,
+  });
+
   if (pathname === "/login" || pathname === "/register") {
     return null;
   }
-
-  const isAdmin = true; // Replace with actual admin check logic
 
   return (
     <nav className="bg-gray-800">
@@ -24,12 +35,12 @@ const Navbar: React.FC = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="text-xl font-bold text-blue-400">
-              Japanese Learning
+              Nihongo Nexus
             </Link>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:block">
+          <div className="hidden sm:block">
             <div className="ml-10 flex items-center space-x-4">
               {/* User Links */}
               <Link
@@ -46,7 +57,7 @@ const Navbar: React.FC = () => {
               </Link>
 
               {/* Admin Links */}
-              {isAdmin && (
+              {role === "admin" && (
                 <div className="relative">
                   <button
                     onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
@@ -98,7 +109,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="sm:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
@@ -132,7 +143,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden">
+        <div className="sm:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <Link
               href="/lessons"
@@ -146,7 +157,7 @@ const Navbar: React.FC = () => {
             >
               Tutorials
             </Link>
-            {isAdmin && (
+            {role === "admin" && (
               <>
                 <Link
                   href="/admin/dashboard"
@@ -174,11 +185,16 @@ const Navbar: React.FC = () => {
                 </Link>
               </>
             )}
+            <button
+              onClick={() => signOut()}
+              className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
+            >
+              Logout
+            </button>
           </div>
         </div>
       )}
     </nav>
   );
 };
-
 export default Navbar;
