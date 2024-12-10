@@ -28,7 +28,7 @@ export const middleware = async (request: NextRequest) => {
     }
     if (role === "user" && (pathname === "/" || pathname === "/dashboard")) {
       return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_API_URL}/lessons`
+        `${process.env.NEXT_PUBLIC_API_URL}/lesson`
       );
     }
   }
