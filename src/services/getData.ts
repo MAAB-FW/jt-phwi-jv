@@ -40,3 +40,16 @@ export const getLessons = async () => {
     return [];
   }
 };
+
+// delete a lesson
+export const deleteLesson = async (lessonNo: number) => {
+  try {
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/delete-lesson/${lessonNo}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
