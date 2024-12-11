@@ -10,9 +10,7 @@ import React, { useState } from "react";
 const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { data } = useSession();
-
   const [isOpen, setIsOpen] = useState(false);
-  // const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
 
   const { data: { image, role } = {} } = useQuery({
     queryKey: ["userRole", data?.user?.email],
@@ -24,18 +22,21 @@ const Navbar: React.FC = () => {
     },
     enabled: !!data?.user?.email,
   });
-  console.log(pathname);
+
   if (pathname === "/login" || pathname === "/register") {
     return null;
   }
 
   return (
-    <nav className="bg-gray-800">
-      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+    <nav className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-xl font-bold text-blue-400">
+            <Link
+              href="/"
+              className="text-2xl font-extrabold tracking-tight text-blue-400 transition-colors hover:text-blue-300"
+            >
               Nihongo Nexus
             </Link>
           </div>
@@ -43,87 +44,61 @@ const Navbar: React.FC = () => {
           {/* Desktop Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
-              {/* User Links */}
               <Link
                 href="/lesson"
-                className={`${pathname === "/lesson" ? "text-green-500" : ""} rounded-md px-3 py-2 text-gray-300 hover:text-white`}
+                className={`${
+                  pathname === "/lesson"
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                } rounded-md px-3 py-2 text-sm font-medium transition-colors`}
               >
                 Lessons
               </Link>
               <Link
                 href="/tutorials"
-                className={`${pathname === "/tutorials" ? "text-green-500" : ""} rounded-md px-3 py-2 text-gray-300 hover:text-white`}
+                className={`${
+                  pathname === "/tutorials"
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                } rounded-md px-3 py-2 text-sm font-medium transition-colors`}
               >
                 Tutorials
               </Link>
 
-              {/* Admin Links */}
-              {/* {role === "admin" && (
-                <div className="relative">
-                  <button
-                    onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
-                    className="rounded-md px-3 py-2 text-gray-300 hover:text-white"
+              <div className="ml-6 flex items-center space-x-4 border-l border-gray-700 pl-6">
+                <div className="flex items-center gap-3">
+                  <div
+                    title={data?.user?.name || "User"}
+                    className="relative h-8 w-8 overflow-hidden rounded-full ring-2 ring-blue-500"
                   >
-                    Admin
-                  </button>
-                  {isAdminMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                      <div className="py-1">
-                        <Link
-                          href="/admin/dashboard"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Dashboard
-                        </Link>
-                        <Link
-                          href="/admin/lessons"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Manage Lessons
-                        </Link>
-                        <Link
-                          href="/admin/vocabularies"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Manage Vocabularies
-                        </Link>
-                        <Link
-                          href="/admin/users"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Manage Users
-                        </Link>
-                      </div>
-                    </div>
+                    <div
+                      className="h-full w-full bg-cover bg-center"
+                      style={{ backgroundImage: `url(${image || ""})` }}
+                    />
+                  </div>
+                  {role === "admin" && (
+                    <span className="rounded-full bg-gray-700 px-2 py-1 text-xs font-medium text-gray-300">
+                      Admin
+                    </span>
                   )}
                 </div>
-              )} */}
-              <div className="ml-4 flex items-center border-l border-gray-700 pl-4">
-                <div
-                  title={data?.user?.name || "User name not available"}
-                  className="flex h-8 w-8 items-center justify-center rounded-full font-semibold text-white"
-                  style={{
-                    backgroundImage: `url(${image || ""})`,
-                    backgroundSize: "cover",
-                  }}
-                />
-              </div>
 
-              {role === "admin" && pathname !== "/dashboard" && (
-                <Link
-                  href="/dashboard"
-                  className="ml-4 rounded-md px-3 py-2 text-gray-300 hover:text-white"
+                {role === "admin" && (
+                  <Link
+                    href="/dashboard"
+                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
+                  >
+                    Dashboard
+                  </Link>
+                )}
+
+                <button
+                  onClick={() => signOut()}
+                  className="rounded-md bg-gray-700 px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-600 hover:text-white"
                 >
-                  Dashboard
-                </Link>
-              )}
-
-              <button
-                onClick={() => signOut()}
-                className="rounded-md px-3 py-2 text-gray-300 hover:text-white"
-              >
-                Logout
-              </button>
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
 
@@ -163,97 +138,134 @@ const Navbar: React.FC = () => {
       {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden">
-          <div className="space-y-1 px-2 pb-3 pt-2 md:px-3">
+          <div className="space-y-1 px-3 pb-3 pt-2">
             <Link
-              onClick={() => setIsOpen(false)}
               href="/lesson"
-              className={`${pathname === "/lesson" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
+              className={`${
+                pathname === "/lesson"
+                  ? "bg-gray-700 text-white"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+              } block rounded-md px-3 py-2 text-base font-medium`}
+              onClick={() => setIsOpen(false)}
             >
               Lessons
             </Link>
             <Link
-              onClick={() => setIsOpen(false)}
               href="/tutorials"
-              className={`${pathname === "/tutorials" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
+              className={`${
+                pathname === "/tutorials"
+                  ? "bg-gray-700 text-white"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+              } block rounded-md px-3 py-2 text-base font-medium`}
+              onClick={() => setIsOpen(false)}
             >
               Tutorials
             </Link>
 
-            <div className="flex items-center border-t px-3 py-2">
-              <div
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 font-semibold text-white"
-                style={{
-                  backgroundImage: `url(${image || ""})`,
-                  backgroundSize: "cover",
-                }}
-              />
-              <span className="ml-2 text-gray-300">
-                {data?.user?.name || "User"}
-              </span>
-            </div>
-            {role === "admin" && pathname !== "/dashboard" && (
-              <>
+            <div className="border-t border-gray-700 pt-4">
+              <div className="flex items-center px-3">
+                <div className="flex items-center gap-3">
+                  <div className="relative h-8 w-8 overflow-hidden rounded-full ring-2 ring-blue-500">
+                    {image ? (
+                      <div
+                        className="h-full w-full bg-cover bg-center"
+                        style={{ backgroundImage: `url(${image})` }}
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-blue-500 text-white">
+                        {data?.user?.name?.[0] || "U"}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="text-base font-medium text-white">
+                      {data?.user?.name}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="text-sm font-medium text-gray-400">
+                        {data?.user?.email}
+                      </div>
+                      {role === "admin" && (
+                        <span className="rounded-full bg-gray-700 px-2 py-1 text-xs font-medium text-gray-300">
+                          Admin
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3 space-y-1">
                 <Link
-                  onClick={() => setIsOpen(false)}
                   href="/dashboard"
-                  className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
+                  className={`${
+                    pathname === "/dashboard"
+                      ? "bg-gray-700 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  } block rounded-md px-3 py-2 text-base font-medium`}
+                  onClick={() => setIsOpen(false)}
                 >
                   Dashboard
                 </Link>
-                <Link
-                  onClick={() => setIsOpen(false)}
-                  href="/dashboard/lessons"
-                  className={`${pathname === "/dashboard/lessons" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
+                {/* {role === "admin" && pathname !== "/dashboard" && (
+                <>
+                  <Link
+                    href="/dashboard/lessons"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Lessons
+                  </Link>
+                  <Link
+                    href="/dashboard/add-lessons"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Add Lessons
+                  </Link>
+                  <Link
+                    href="/dashboard/add-vocabularies"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Add Vocabularies
+                  </Link>
+                  <Link
+                    href="/dashboard/manage-users"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Manage Users
+                  </Link>
+                  <Link
+                    href="/dashboard/manage-lessons"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Manage Lessons
+                  </Link>
+                  <Link
+                    href="/dashboard/manage-vocabularies"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Manage Vocabularies
+                  </Link>
+                </>
+              )} */}
+                <button
+                  onClick={() => signOut()}
+                  className="block w-full rounded-md px-3 py-2 text-left text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
-                  Lessons
-                </Link>
-                <Link
-                  onClick={() => setIsOpen(false)}
-                  href="/dashboard/add-lessons"
-                  className={`${pathname === "/dashboard/add-lessons" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
-                >
-                  Add Lessons
-                </Link>
-                <Link
-                  onClick={() => setIsOpen(false)}
-                  href="/dashboard/add-vocabularies"
-                  className={`${pathname === "/dashboard/add-vocabularies" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
-                >
-                  Add Vocabularies
-                </Link>
-                <Link
-                  onClick={() => setIsOpen(false)}
-                  href="/dashboard/manage-users"
-                  className={`${pathname === "/dashboard/manage-users" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
-                >
-                  Manage Users
-                </Link>
-                <Link
-                  onClick={() => setIsOpen(false)}
-                  href="/dashboard/manage-lessons"
-                  className={`${pathname === "/dashboard/manage-lessons" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
-                >
-                  Manage Lessons
-                </Link>
-                <Link
-                  onClick={() => setIsOpen(false)}
-                  href="/dashboard/manage-vocabularies"
-                  className={`${pathname === "/dashboard/manage-vocabularies" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
-                >
-                  Manage Vocabularies
-                </Link>
-              </>
-            )}
-            <button
-              onClick={() => signOut()}
-              className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
-            >
-              Logout
-            </button>
+                  Logout
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
     </nav>
   );
 };
+
 export default Navbar;
