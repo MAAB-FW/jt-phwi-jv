@@ -26,3 +26,17 @@ export const addLesson = async (data: LessonFormData) => {
     return {};
   }
 };
+
+// get all lessons
+
+export const getLessons = async () => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/get-lessons`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
