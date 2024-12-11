@@ -67,3 +67,16 @@ export const updateLesson = async (lesson: LessonFormData) => {
     return {};
   }
 };
+
+// get all users
+export const getAllUsers = async () => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/get-all-users`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
