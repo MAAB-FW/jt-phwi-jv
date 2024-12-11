@@ -1,7 +1,9 @@
 "use client";
 
-import { getAllUsers } from "@/services/getData";
+import { getAllUsers, updateUserRole } from "@/services/getData";
+import { queryClient } from "@/services/providers";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 interface User {
   _id: string;
@@ -20,14 +22,27 @@ const ManageUsersPage = () => {
   });
 
   const { mutate: handleRoleUpdate } = useMutation<
-    { _id: string; role: string },
+    { _id: string; role: "admin" | "user"; modifiedCount: number },
     Error,
-    { _id: string; role: string }
+    { _id: string; role: "admin" | "user" }
   >({
     mutationKey: ["update-role"],
-    mutationFn: async ({ _id, role }: { _id: string; role: string }) => {
-      
-      return { _id, role };
+    mutationFn: async ({
+      _id,
+      role,
+    }: {
+      _id: string;
+      role: "admin" | "user";
+    }) => {
+      console.log(_id, role);
+      const res = await updateUserRole(_id, role);
+      return res;
+    },
+    onSuccess: (data) => {
+      if (data.modifiedCount) {
+        toast.success("Role updated successfully!");
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+      }
     },
   });
 
