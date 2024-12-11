@@ -61,7 +61,7 @@ export default function DashboardLayout({
           </nav>
         </aside>
       )}
-      <main className="flex-1 p-8">{children}</main>
+      <main className="flex-1 p-3 md:p-8">{children}</main>
     </div>
   );
 }
