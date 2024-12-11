@@ -60,7 +60,7 @@ export default function LessonsPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {lessons.map((lesson) => (
           <Link
-            href={`/lesson/lesson-${lesson.lessonNo}`}
+            href={`/lesson/${lesson.lessonNo}`}
             key={lesson.lessonNo}
             className="cursor-pointer rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
             // onClick={() => router.push(`/lesson/${lesson.id}`)}
