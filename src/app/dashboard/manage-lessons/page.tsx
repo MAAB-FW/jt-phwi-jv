@@ -66,7 +66,7 @@ export default function ManageLessons(): JSX.Element {
 
   return (
     <div className="min-h-screen py-4 sm:py-8">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div className="/sm:px-6 mx-auto max-w-7xl px-2 lg:px-8">
         <div className="mb-4 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
             Manage Lessons
