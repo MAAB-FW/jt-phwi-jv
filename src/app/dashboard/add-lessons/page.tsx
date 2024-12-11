@@ -28,7 +28,6 @@ export default function AddLesson() {
     }
     setIsLoading(true);
     try {
-      // Replace with your API endpoint
       const response = await addLesson({
         ...data,
         lessonNo: Number(data.lessonNo),
