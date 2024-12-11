@@ -56,71 +56,86 @@ const ManageUsersPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="container mx-auto py-10">
       <h1 className="mb-8 text-3xl font-bold">Manage Users</h1>
-      <div className="overflow-x-auto">
-        <table className="min-w-full rounded-lg border border-gray-200 bg-white">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Email
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Current Role
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {users?.map((user) => (
-              <tr key={user._id} className="hover:bg-gray-50">
-                <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                  {user.name}
-                </td>
-                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                  {user.email}
-                </td>
-                <td className="whitespace-nowrap px-6 py-4 text-sm">
-                  <span
-                    className={`rounded-full px-2 py-1 text-sm ${
-                      user.role === "admin"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {user.role}
-                  </span>
-                </td>
-                <td className="whitespace-nowrap px-6 py-4 text-sm">
-                  {user.role === "admin" ? (
-                    <button
-                      onClick={() =>
-                        handleRoleUpdate({ _id: user._id, role: "user" })
-                      }
-                      className="rounded-md bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600"
-                    >
-                      Demote to User
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        handleRoleUpdate({ _id: user._id, role: "admin" })
-                      }
-                      className="rounded-md bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-600"
-                    >
-                      Promote to admin
-                    </button>
-                  )}
-                </td>
+
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6"
+                >
+                  Name
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 md:table-cell"
+                >
+                  Email
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6"
+                >
+                  Role
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6"
+                >
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-200 bg-white">
+              {users?.map((user) => (
+                <tr key={user._id} className="max-w-[300px] hover:bg-gray-50">
+                  <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-gray-900 sm:px-6">
+                    {user.name}
+                  </td>
+                  <td className="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 sm:px-6 md:table-cell">
+                    {user.email}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-4 text-sm sm:px-6">
+                    <span
+                      className={`inline-flex rounded-full px-2 py-1 text-xs ${
+                        user.role === "admin"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {user.role}
+                    </span>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-4 text-sm sm:px-6">
+                    {user.role === "admin" ? (
+                      <button
+                        onClick={() =>
+                          handleRoleUpdate({ _id: user._id, role: "user" })
+                        }
+                        className="rounded-md bg-red-500 px-3 py-1.5 text-xs text-white hover:bg-red-600 sm:px-4 sm:py-2 sm:text-sm"
+                      >
+                        Demote
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          handleRoleUpdate({ _id: user._id, role: "admin" })
+                        }
+                        className="rounded-md bg-blue-500 px-3 py-1.5 text-xs text-white hover:bg-blue-600 sm:px-4 sm:py-2 sm:text-sm"
+                      >
+                        Promote
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
