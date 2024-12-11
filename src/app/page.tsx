@@ -1,11 +1,5 @@
-'use client'
-import { signOut } from "next-auth/react";
+"use client";
 
 export default function Home() {
-  return (
-    <div className="">
-      Hello
-      <button onClick={() => signOut()}>signout</button>
-    </div>
-  );
+  return <></>;
 }
