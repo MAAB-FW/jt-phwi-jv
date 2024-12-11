@@ -24,14 +24,14 @@ const Navbar: React.FC = () => {
     },
     enabled: !!data?.user?.email,
   });
-
+  console.log(pathname);
   if (pathname === "/login" || pathname === "/register") {
     return null;
   }
 
   return (
     <nav className="bg-gray-800">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -41,18 +41,18 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden sm:block">
+          <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
               {/* User Links */}
               <Link
                 href="/lesson"
-                className="rounded-md px-3 py-2 text-gray-300 hover:text-white"
+                className={`${pathname === "/lesson" ? "text-green-500" : ""} rounded-md px-3 py-2 text-gray-300 hover:text-white`}
               >
                 Lessons
               </Link>
               <Link
                 href="/tutorials"
-                className="rounded-md px-3 py-2 text-gray-300 hover:text-white"
+                className={`${pathname === "/tutorials" ? "text-green-500" : ""} rounded-md px-3 py-2 text-gray-300 hover:text-white`}
               >
                 Tutorials
               </Link>
@@ -109,6 +109,15 @@ const Navbar: React.FC = () => {
                 />
               </div>
 
+              {role === "admin" && pathname !== "/dashboard" && (
+                <Link
+                  href="/dashboard"
+                  className="ml-4 rounded-md px-3 py-2 text-gray-300 hover:text-white"
+                >
+                  Dashboard
+                </Link>
+              )}
+
               <button
                 onClick={() => signOut()}
                 className="rounded-md px-3 py-2 text-gray-300 hover:text-white"
@@ -119,7 +128,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="sm:hidden">
+          <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
@@ -153,17 +162,19 @@ const Navbar: React.FC = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="sm:hidden">
-          <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+        <div className="md:hidden">
+          <div className="space-y-1 px-2 pb-3 pt-2 md:px-3">
             <Link
+              onClick={() => setIsOpen(false)}
               href="/lesson"
-              className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
+              className={`${pathname === "/lesson" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
             >
               Lessons
             </Link>
             <Link
+              onClick={() => setIsOpen(false)}
               href="/tutorials"
-              className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
+              className={`${pathname === "/tutorials" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
             >
               Tutorials
             </Link>
@@ -183,42 +194,49 @@ const Navbar: React.FC = () => {
             {role === "admin" && pathname !== "/dashboard" && (
               <>
                 <Link
+                  onClick={() => setIsOpen(false)}
                   href="/dashboard"
                   className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
                 >
                   Dashboard
                 </Link>
                 <Link
+                  onClick={() => setIsOpen(false)}
                   href="/dashboard/lessons"
                   className={`${pathname === "/dashboard/lessons" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
                 >
                   Lessons
                 </Link>
                 <Link
+                  onClick={() => setIsOpen(false)}
                   href="/dashboard/add-lessons"
                   className={`${pathname === "/dashboard/add-lessons" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
                 >
                   Add Lessons
                 </Link>
                 <Link
+                  onClick={() => setIsOpen(false)}
                   href="/dashboard/add-vocabularies"
                   className={`${pathname === "/dashboard/add-vocabularies" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
                 >
                   Add Vocabularies
                 </Link>
                 <Link
+                  onClick={() => setIsOpen(false)}
                   href="/dashboard/manage-users"
                   className={`${pathname === "/dashboard/manage-users" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
                 >
                   Manage Users
                 </Link>
                 <Link
+                  onClick={() => setIsOpen(false)}
                   href="/dashboard/manage-lessons"
                   className={`${pathname === "/dashboard/manage-lessons" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
                 >
                   Manage Lessons
                 </Link>
                 <Link
+                  onClick={() => setIsOpen(false)}
                   href="/dashboard/manage-vocabularies"
                   className={`${pathname === "/dashboard/manage-vocabularies" ? "text-green-500" : ""} block rounded-md px-3 py-2 text-gray-300 hover:text-white`}
                 >
