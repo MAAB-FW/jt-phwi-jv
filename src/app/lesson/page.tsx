@@ -1,5 +1,7 @@
 "use client";
 
+import { getLessons } from "@/services/getData";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 interface Lesson {
@@ -8,41 +10,49 @@ interface Lesson {
   description: string;
 }
 
-const lessons: Lesson[] = [
-  {
-    lessonNo: 1,
-    name: "Basic Greetings",
-    description: "Essential Japanese greetings for daily conversations",
-  },
-  {
-    lessonNo: 2,
-    name: "Numbers and Counting",
-    description: "Learn to count and use numbers in Japanese",
-  },
-  {
-    lessonNo: 3,
-    name: "Family Members",
-    description: "Vocabulary for family relationships",
-  },
-  {
-    lessonNo: 4,
-    name: "Food and Drinks",
-    description: "Common words for Japanese cuisine and beverages",
-  },
-  {
-    lessonNo: 5,
-    name: "Weather and Seasons",
-    description: "Vocabulary for describing weather and seasons",
-  },
-  {
-    lessonNo: 6,
-    name: "Transportation",
-    description: "Words related to getting around in Japan",
-  },
-];
+// const lessons: Lesson[] = [
+//   {
+//     lessonNo: 1,
+//     name: "Basic Greetings",
+//     description: "Essential Japanese greetings for daily conversations",
+//   },
+//   {
+//     lessonNo: 2,
+//     name: "Numbers and Counting",
+//     description: "Learn to count and use numbers in Japanese",
+//   },
+//   {
+//     lessonNo: 3,
+//     name: "Family Members",
+//     description: "Vocabulary for family relationships",
+//   },
+//   {
+//     lessonNo: 4,
+//     name: "Food and Drinks",
+//     description: "Common words for Japanese cuisine and beverages",
+//   },
+//   {
+//     lessonNo: 5,
+//     name: "Weather and Seasons",
+//     description: "Vocabulary for describing weather and seasons",
+//   },
+//   {
+//     lessonNo: 6,
+//     name: "Transportation",
+//     description: "Words related to getting around in Japan",
+//   },
+// ];
 
 export default function LessonsPage() {
   // const router = useRouter();
+
+  const { data: lessons = [] } = useQuery<Lesson[]>({
+    queryKey: ["get-lessons"],
+    queryFn: async () => {
+      const { lessons } = await getLessons();
+      return lessons;
+    },
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
