@@ -12,6 +12,7 @@ export const POST = async (req: Request) => {
     lessonNo,
     adminMail,
     example,
+    exampleMeaning,
   }: VucabularyFormData = await req.json();
   const vucabularyCollection = db.collection("vucabulary");
 
@@ -22,7 +23,8 @@ export const POST = async (req: Request) => {
     !pronunciation ||
     !whenToSay ||
     !example ||
-    !adminMail
+    !adminMail ||
+    !exampleMeaning
   ) {
     return NextResponse.json({
       message: "All fields are required!",
@@ -56,6 +58,7 @@ export const POST = async (req: Request) => {
       lessonNo,
       adminMail,
       example,
+      exampleMeaning,
     });
     return NextResponse.json(res);
   } catch (error) {
