@@ -80,3 +80,19 @@ export const getAllUsers = async () => {
     return [];
   }
 };
+
+// update user role
+export const updateUserRole = async (_id: string, role: "admin" | "user") => {
+  try {
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/update-role/${_id}`,
+      {
+        role,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
