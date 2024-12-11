@@ -18,7 +18,15 @@ export const GET = async (
         JSON.stringify({ message: "user not found", status: 400 })
       );
     }
-    return new NextResponse(JSON.stringify({ role: user.role }));
+    return new NextResponse(
+      JSON.stringify({
+        _id: user._id.toString(),
+        role: user.role,
+        name: user.name,
+        email: user.email,
+        image: user.photoUrl,
+      })
+    );
   } catch (error) {
     console.log(error);
     return new NextResponse(JSON.stringify({ message: error, status: 400 }));
