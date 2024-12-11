@@ -53,3 +53,17 @@ export const deleteLesson = async (lessonNo: number) => {
     return {};
   }
 };
+
+// update lesson
+export const updateLesson = async (lesson: LessonFormData) => {
+  try {
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/update-lesson`,
+      lesson
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
