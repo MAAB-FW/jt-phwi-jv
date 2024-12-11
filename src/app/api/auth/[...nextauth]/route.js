@@ -31,11 +31,9 @@ const handler = NextAuth({
             throw new Error("Invalid credentials");
           }
           return {
-            id: user._id.toString(),
             email: user.email,
             name: user.name,
-            image: user.image,
-            role: user.role,
+            image: user.photoUrl,
           };
         } catch (error) {
           console.log(error);
