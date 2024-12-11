@@ -39,9 +39,7 @@ export const POST = async (req: Request) => {
     });
   }
 
-  const isExist = await vucabularyCollection.findOne({
-    $or: [{ word }, { lessonNo }],
-  });
+  const isExist = await vucabularyCollection.findOne({ word });
   if (isExist) {
     return NextResponse.json({
       message: "Vucabulary already exists!",
