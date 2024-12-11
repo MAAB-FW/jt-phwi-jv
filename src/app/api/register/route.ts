@@ -18,9 +18,7 @@ export const POST = async (request: NextRequest) => {
       .collection("users")
       .findOne({ email: userData.email });
     if (user) {
-      return new NextResponse(
-        JSON.stringify({ message: "User already exists", status: 400 })
-      );
+      return NextResponse.json({ message: "User already exists", status: 400 });
     }
     const hashedPassword = hashSync(userData.password, 10);
     await userCollection.insertOne({
@@ -31,19 +29,15 @@ export const POST = async (request: NextRequest) => {
       isActive: true,
     });
 
-    return new NextResponse(
-      JSON.stringify({
-        message: "Registration Successful",
-        status: 200,
-      })
-    );
+    return NextResponse.json({
+      message: "Registration Successful",
+      status: 200,
+    });
   } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        message: "Something went wrong!",
-        error,
-        status: 500,
-      })
-    );
+    return NextResponse.json({
+      message: "Something went wrong!",
+      error,
+      status: 500,
+    });
   }
 };

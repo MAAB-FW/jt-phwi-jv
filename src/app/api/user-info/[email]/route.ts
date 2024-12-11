@@ -14,21 +14,17 @@ export const GET = async (
     });
 
     if (!user) {
-      return new NextResponse(
-        JSON.stringify({ message: "user not found", status: 400 })
-      );
+      return NextResponse.json({ message: "user not found", status: 400 });
     }
-    return new NextResponse(
-      JSON.stringify({
-        _id: user._id.toString(),
-        role: user.role,
-        name: user.name,
-        email: user.email,
-        image: user.photoUrl,
-      })
-    );
+    return NextResponse.json({
+      _id: user._id.toString(),
+      role: user.role,
+      name: user.name,
+      email: user.email,
+      image: user.photoUrl,
+    });
   } catch (error) {
     console.log(error);
-    return new NextResponse(JSON.stringify({ message: error, status: 400 }));
+    return NextResponse.json({ message: error, status: 400 });
   }
 };
