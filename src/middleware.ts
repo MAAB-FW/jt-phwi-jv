@@ -12,7 +12,9 @@ export const middleware = async (request: NextRequest) => {
     pathname.startsWith("/login") ||
     pathname.startsWith("/register") ||
     pathname.includes(".") ||
-    pathname.startsWith("/api")
+    pathname.startsWith("/api/user-info") ||
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/register")
   ) {
     return NextResponse.next();
   }
@@ -26,7 +28,10 @@ export const middleware = async (request: NextRequest) => {
         `${process.env.NEXT_PUBLIC_API_URL}/dashboard`
       );
     }
-    if (role === "user" && (pathname === "/" || pathname === "/dashboard")) {
+    if (
+      role === "user" &&
+      (pathname === "/" || pathname.startsWith("/dashboard"))
+    ) {
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_API_URL}/lesson`);
     }
   }
