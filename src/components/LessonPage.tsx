@@ -1,9 +1,10 @@
+import { getVucabulariesOfLesson } from "@/services/getData";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactConfetti from "react-confetti";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function LessonPage({ lessonNo }: { lessonNo: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -13,6 +14,14 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
     height: typeof window !== "undefined" ? window.innerHeight : 0,
   });
   const router = useRouter();
+  const { data: vucabularies = [], isLoading } = useQuery({
+    queryKey: ["get-vucabularies-of-lesson", lessonNo],
+    queryFn: async () => {
+      const { vucabularies } = await getVucabulariesOfLesson(Number(lessonNo));
+
+      return vucabularies;
+    },
+  });
 
   // Sample vocabulary data
   const vocabularyList = [
@@ -87,8 +96,8 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
 
   const handleNext = () => {
     setCurrentIndex((prev) => {
-      const newIndex = prev < vocabularyList.length - 1 ? prev + 1 : prev;
-      if (newIndex === vocabularyList.length - 1) {
+      const newIndex = prev < vucabularies.length - 1 ? prev + 1 : prev;
+      if (newIndex === vucabularies.length - 1) {
         setHasViewedAll(true);
       }
       return newIndex;
@@ -108,8 +117,23 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
     window.speechSynthesis.speak(utterance);
   };
 
-  const currentWord = vocabularyList[currentIndex];
+  const currentWord = vucabularies[currentIndex];
 
+  if (isLoading)
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="loader"></div>
+        <p className="ml-4 text-lg text-gray-700">Loading...</p>
+      </div>
+    );
+  if (!currentWord)
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p className="text-lg text-gray-700">
+          No vocabulary found for this lesson.
+        </p>
+      </div>
+    );
   return (
     <div className="px-4 py-8 sm:px-6 lg:px-8">
       {showConfetti && (
@@ -177,7 +201,7 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
           </button>
 
           <span className="text-nowrap text-gray-600">
-            {currentIndex + 1} of {vocabularyList.length}
+            {currentIndex + 1} of {vucabularies.length}
           </span>
 
           <button
