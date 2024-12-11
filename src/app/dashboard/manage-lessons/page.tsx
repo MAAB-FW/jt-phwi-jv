@@ -137,6 +137,14 @@ export default function ManageLessons(): JSX.Element {
                                 <form
                                   onSubmit={(e) => {
                                     e.preventDefault();
+                                    if (
+                                      !lessonToEdit.name ||
+                                      !lessonToEdit.description
+                                    ) {
+                                      return toast.error(
+                                        "Please fill in all fields"
+                                      );
+                                    }
                                     handleUpdateSubmit(lessonToEdit);
                                   }}
                                 >
