@@ -124,3 +124,16 @@ export const getAllLessonsNo = async () => {
     return [];
   }
 };
+
+// get vucabularies for a lesson
+export const getVucabulariesOfLesson = async (lessonNo: number) => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/get-vucabularies/${lessonNo}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
