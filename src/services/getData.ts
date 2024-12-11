@@ -1,4 +1,5 @@
 import { LessonFormData } from "@/app/dashboard/add-lessons/page";
+import { VucabularyFormData } from "@/app/dashboard/add-vocabularies/page";
 import axios from "axios";
 
 export const getUserInfo = async (email: string) => {
@@ -94,5 +95,32 @@ export const updateUserRole = async (_id: string, role: "admin" | "user") => {
   } catch (error) {
     console.log(error);
     return {};
+  }
+};
+
+// add vucabulary
+export const addVucabulary = async (data: VucabularyFormData) => {
+  try {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/add-vucabulary`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
+// get all lessons
+export const getAllLessonsNo = async () => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/get-all-lessons-no`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 };
