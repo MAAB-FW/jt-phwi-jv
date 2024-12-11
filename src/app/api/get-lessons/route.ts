@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export const GET = async (req: Request) => {
+export const GET = async () => {
   const db = await connectDB();
   const lessonsCollection = db.collection("lessons");
   try {
