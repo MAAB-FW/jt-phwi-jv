@@ -28,6 +28,12 @@ export const middleware = async (request: NextRequest) => {
         `${process.env.NEXT_PUBLIC_API_URL}/dashboard`
       );
     }
+    if (pathname.startsWith("/api/admin") && role !== "admin") {
+      return NextResponse.json({
+        message: "You are not authorized!",
+        status: 401,
+      });
+    }
     if (
       role === "user" &&
       (pathname === "/" || pathname.startsWith("/dashboard"))
