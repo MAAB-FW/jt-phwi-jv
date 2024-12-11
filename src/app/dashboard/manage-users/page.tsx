@@ -34,7 +34,6 @@ const ManageUsersPage = () => {
       _id: string;
       role: "admin" | "user";
     }) => {
-      console.log(_id, role);
       const res = await updateUserRole(_id, role);
       return res;
     },
@@ -42,6 +41,8 @@ const ManageUsersPage = () => {
       if (data.modifiedCount) {
         toast.success("Role updated successfully!");
         queryClient.invalidateQueries({ queryKey: ["users"] });
+      } else {
+        toast.error("Something went wrong!");
       }
     },
   });
