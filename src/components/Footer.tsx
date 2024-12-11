@@ -17,7 +17,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/lessons"
+                  href="/lesson"
                   className="transition-colors hover:text-white"
                 >
                   Vocabulary Lessons
@@ -25,7 +25,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/practice"
+                  href="/tutorials"
                   className="transition-colors hover:text-white"
                 >
                   Practice Exercises
@@ -33,7 +33,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/dictionary"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   Japanese Dictionary
@@ -41,7 +41,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/progress"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   Track Progress
@@ -56,7 +56,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/forum"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   Discussion Forum
@@ -64,7 +64,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/study-groups"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   Study Groups
@@ -72,7 +72,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/events"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   Language Events
@@ -87,7 +87,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/faq"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   FAQ
@@ -95,7 +95,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   Contact Us
@@ -103,7 +103,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/feedback"
+                  href="/"
                   className="transition-colors hover:text-white"
                 >
                   Feedback
