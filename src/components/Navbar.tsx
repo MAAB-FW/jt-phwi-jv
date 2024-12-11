@@ -1,6 +1,6 @@
 "use client";
 
-import { getUserRole } from "@/services/getData";
+import { getUserInfo } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -10,15 +10,16 @@ import React, { useState } from "react";
 const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { data } = useSession();
+console.log(data)
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
+  // const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
 
-  const { data: role } = useQuery({
+  const { data: { image } = {} } = useQuery({
     queryKey: ["userRole", data?.user?.email],
     queryFn: async () => {
       if (data?.user?.email) {
-        const { role } = await getUserRole(data.user.email);
-        return role;
+        const userData = await getUserInfo(data.user.email);
+        return userData;
       }
     },
     enabled: !!data?.user?.email,
@@ -57,7 +58,7 @@ const Navbar: React.FC = () => {
               </Link>
 
               {/* Admin Links */}
-              {role === "admin" && (
+              {/* {role === "admin" && (
                 <div className="relative">
                   <button
                     onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
@@ -96,9 +97,18 @@ const Navbar: React.FC = () => {
                     </div>
                   )}
                 </div>
-              )}
+              )} */}
+              <div className="ml-4 flex items-center border-l border-gray-700 pl-4">
+                <div
+                  title={data?.user?.name || "User name not available"}
+                  className="flex h-8 w-8 items-center justify-center rounded-full font-semibold text-white"
+                  style={{
+                    backgroundImage: `url(${image || ""})`,
+                    backgroundSize: "cover",
+                  }}
+                />
+              </div>
 
-              {/* Auth Links */}
               <button
                 onClick={() => signOut()}
                 className="rounded-md px-3 py-2 text-gray-300 hover:text-white"
@@ -157,7 +167,7 @@ const Navbar: React.FC = () => {
             >
               Tutorials
             </Link>
-            {role === "admin" && (
+            {/* {role === "admin" && (
               <>
                 <Link
                   href="/admin/dashboard"
@@ -184,7 +194,19 @@ const Navbar: React.FC = () => {
                   Manage Users
                 </Link>
               </>
-            )}
+            )} */}
+            <div className="flex items-center px-3 py-2">
+              <div
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 font-semibold text-white"
+                style={{
+                  backgroundImage: `url(${image || ""})`,
+                  backgroundSize: "cover",
+                }}
+              />
+              <span className="ml-2 text-gray-300">
+                {data?.user?.name || "User"}
+              </span>
+            </div>
             <button
               onClick={() => signOut()}
               className="block rounded-md px-3 py-2 text-gray-300 hover:text-white"
