@@ -229,3 +229,20 @@ export const deleteTutorial = async (_id: string) => {
     return {};
   }
 };
+
+export const updateTutorial = async (data: {
+  _id: string;
+  title: string;
+  videoId: string;
+}) => {
+  try {
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/update-tutorial`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
