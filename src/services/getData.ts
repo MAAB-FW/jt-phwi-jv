@@ -203,3 +203,16 @@ export const addTutorial = async (data: TutorialFormData) => {
     return {};
   }
 };
+
+// get all tutorials
+export const getAllTutorials = async () => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/get-tutorials`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
