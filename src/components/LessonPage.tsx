@@ -1,4 +1,4 @@
-import {  getVocabulariesOfLesson } from "@/services/getData";
+import { getVocabulariesOfLesson } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,62 +24,66 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
   });
 
   // Sample vocabulary data
-  const vocabularyList = [
-    {
-      lessonNo: 1, // Add lesson number here
-      word: "ありがとう",
-      meaning: "Thank you",
-      pronunciation: "Arigatou",
-      whenToSay: "Used to express gratitude",
-      example: "ありがとうございます。",
-      exampleMeaning: "Thank you very much.",
-      adminEmail: "", // Add admin email here
-    },
-    {
-      lessonNo: 1, // Add lesson number here
-      word: "こんにちは",
-      meaning: "Hello",
-      pronunciation: "Konnichiwa",
-      whenToSay: "Used as a greeting during daytime",
-      example: "こんにちは、元気ですか？",
-      exampleMeaning: "Hello, how are you?",
-      adminEmail: "", // Add admin email here
-    },
-    {
-      lessonNo: 1, // Add lesson number here
-      word: "こんばんは",
-      meaning: "Good evening",
-      pronunciation: "Konbanwa",
-      whenToSay: "Used as a greeting in the evening",
-      example: "こんばんは、今日はどうでしたか？",
-      exampleMeaning: "Good evening, how was your day?",
-      adminEmail: "", // Add admin email here
-    },
-    {
-      lessonNo: 1, // Add lesson number here
-      word: "さようなら",
-      meaning: "Goodbye",
-      pronunciation: "Sayounara",
-      whenToSay: "Used to say farewell",
-      example: "さようなら、また会いましょう。",
-      exampleMeaning: "Goodbye, see you again.",
-      adminEmail: "", // Add admin email here
-    },
-    {
-      lessonNo: 1, // Add lesson number here
-      word: "おやすみなさい",
-      meaning: "Good night",
-      pronunciation: "Oyasuminasai",
-      whenToSay: "Used to wish someone a good night",
-      example: "おやすみなさい、良い夢を。",
-      exampleMeaning: "Good night, sweet dreams.",
-      adminEmail: "", // Add admin email here
-    },
-    // Add more vocabulary items as needed
-  ];
+  // const vocabularyList = [
+  //   {
+  //     lessonNo: 1, // Add lesson number here
+  //     word: "ありがとう",
+  //     meaning: "Thank you",
+  //     pronunciation: "Arigatou",
+  //     whenToSay: "Used to express gratitude",
+  //     example: "ありがとうございます。",
+  //     exampleMeaning: "Thank you very much.",
+  //     adminEmail: "", // Add admin email here
+  //   },
+  //   {
+  //     lessonNo: 1, // Add lesson number here
+  //     word: "こんにちは",
+  //     meaning: "Hello",
+  //     pronunciation: "Konnichiwa",
+  //     whenToSay: "Used as a greeting during daytime",
+  //     example: "こんにちは、元気ですか？",
+  //     exampleMeaning: "Hello, how are you?",
+  //     adminEmail: "", // Add admin email here
+  //   },
+  //   {
+  //     lessonNo: 1, // Add lesson number here
+  //     word: "こんばんは",
+  //     meaning: "Good evening",
+  //     pronunciation: "Konbanwa",
+  //     whenToSay: "Used as a greeting in the evening",
+  //     example: "こんばんは、今日はどうでしたか？",
+  //     exampleMeaning: "Good evening, how was your day?",
+  //     adminEmail: "", // Add admin email here
+  //   },
+  //   {
+  //     lessonNo: 1, // Add lesson number here
+  //     word: "さようなら",
+  //     meaning: "Goodbye",
+  //     pronunciation: "Sayounara",
+  //     whenToSay: "Used to say farewell",
+  //     example: "さようなら、また会いましょう。",
+  //     exampleMeaning: "Goodbye, see you again.",
+  //     adminEmail: "", // Add admin email here
+  //   },
+  //   {
+  //     lessonNo: 1, // Add lesson number here
+  //     word: "おやすみなさい",
+  //     meaning: "Good night",
+  //     pronunciation: "Oyasuminasai",
+  //     whenToSay: "Used to wish someone a good night",
+  //     example: "おやすみなさい、良い夢を。",
+  //     exampleMeaning: "Good night, sweet dreams.",
+  //     adminEmail: "", // Add admin email here
+  //   },
+  //   // Add more vocabulary items as needed
+  // ];
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    setCurrentIndex((prev) => {
+      const newIndex = prev > 0 ? prev - 1 : prev;
+      setHasViewedAll(false);
+      return newIndex;
+    });
   };
 
   useEffect(() => {
@@ -206,12 +210,12 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
 
           <button
             onClick={handleNext}
-            disabled={currentIndex === vocabularyList.length - 1}
+            disabled={currentIndex === vocabularies.length - 1}
             className={`flex items-center rounded-md px-4 py-2 ${
-              currentIndex === vocabularyList.length - 1
-                ? "hidden cursor-not-allowed bg-gray-200 text-gray-400"
+              currentIndex === vocabularies.length - 1
+                ? "cursor-not-allowed bg-gray-200 text-gray-400"
                 : "bg-indigo-600 text-white hover:bg-indigo-700"
-            }`}
+            } ${hasViewedAll && "hidden"} `}
           >
             Next
             <FaAngleRight className="ml-2 h-5 w-5" />
