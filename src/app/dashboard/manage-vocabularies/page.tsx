@@ -195,7 +195,7 @@ export default function ManageVocabularies(): JSX.Element {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Lesson Number</label>
                 <Select
-                  value={vocabularyToEdit?.lessonNo.toString()}
+                  value={vocabularyToEdit?.lessonNo?.toString() || ""}
                   onValueChange={(value) =>
                     vocabularyToEdit &&
                     setVocabularyToEdit({
@@ -229,7 +229,7 @@ export default function ManageVocabularies(): JSX.Element {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Word</label>
                 <Input
-                  value={vocabularyToEdit?.word}
+                  value={vocabularyToEdit?.word || ""}
                   onChange={(e) =>
                     vocabularyToEdit &&
                     setVocabularyToEdit({
@@ -243,7 +243,7 @@ export default function ManageVocabularies(): JSX.Element {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Meaning</label>
                 <Input
-                  value={vocabularyToEdit?.meaning}
+                  value={vocabularyToEdit?.meaning || ""}
                   onChange={(e) =>
                     vocabularyToEdit &&
                     setVocabularyToEdit({
@@ -257,7 +257,7 @@ export default function ManageVocabularies(): JSX.Element {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Pronunciation</label>
                 <Input
-                  value={vocabularyToEdit?.pronunciation}
+                  value={vocabularyToEdit?.pronunciation || ""}
                   onChange={(e) =>
                     vocabularyToEdit &&
                     setVocabularyToEdit({
@@ -271,7 +271,7 @@ export default function ManageVocabularies(): JSX.Element {
               <div className="space-y-2">
                 <label className="text-sm font-medium">When To Say</label>
                 <Input
-                  value={vocabularyToEdit?.whenToSay}
+                  value={vocabularyToEdit?.whenToSay || ""}
                   onChange={(e) =>
                     vocabularyToEdit &&
                     setVocabularyToEdit({
@@ -285,7 +285,7 @@ export default function ManageVocabularies(): JSX.Element {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Example</label>
                 <Input
-                  value={vocabularyToEdit?.example}
+                  value={vocabularyToEdit?.example || ""}
                   onChange={(e) =>
                     vocabularyToEdit &&
                     setVocabularyToEdit({
@@ -299,7 +299,7 @@ export default function ManageVocabularies(): JSX.Element {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Example Meaning</label>
                 <Input
-                  value={vocabularyToEdit?.exampleMeaning}
+                  value={vocabularyToEdit?.exampleMeaning || ""}
                   onChange={(e) =>
                     vocabularyToEdit &&
                     setVocabularyToEdit({
