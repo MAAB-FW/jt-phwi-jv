@@ -13,7 +13,7 @@ import { getLessons, getVocabularyCountALesson } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 
 interface Lesson {
-  _id: string;
+  readonly _id: string;
   name: string;
   lessonNo: number;
 }
@@ -38,7 +38,12 @@ const LessonsPage = () => {
         <CardContent>
           {isLoading ? (
             <div className="flex h-48 items-center justify-center">
-              <span className="loading loading-spinner loading-lg"></span>
+              <div className="flex flex-col items-center gap-2">
+                <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                <span className="text-sm text-muted-foreground">
+                  Loading lessons...
+                </span>
+              </div>
             </div>
           ) : (
             <Table>
@@ -50,7 +55,7 @@ const LessonsPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {lessons.map((lesson) => (
+                {lessons?.map((lesson) => (
                   <TableData key={lesson._id} lesson={lesson}></TableData>
                 ))}
               </TableBody>

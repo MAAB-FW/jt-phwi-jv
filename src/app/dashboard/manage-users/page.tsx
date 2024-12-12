@@ -14,7 +14,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 interface User {
-  _id: string;
+  readonly _id: string;
   name: string;
   email: string;
   role: "admin" | "user";
@@ -59,14 +59,6 @@ const ManageUsersPage = () => {
     },
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-gray-900" />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
@@ -74,60 +66,67 @@ const ManageUsersPage = () => {
       </div>
 
       <div className="rounded-md border bg-white shadow">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[200px]">Name</TableHead>
-              <TableHead className="hidden md:table-cell">Email</TableHead>
-              <TableHead className="w-[100px]">Role</TableHead>
-              <TableHead className="w-[100px] text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users?.map((user) => (
-              <TableRow key={user._id}>
-                <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {user.email}
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${
-                      user.role === "admin"
-                        ? "bg-primary/10 text-primary"
-                        : "bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {user.role}
-                  </span>
-                </TableCell>
-                <TableCell className="text-right">
-                  {user.role === "admin" ? (
-                    <button
-                      disabled={isPending || isFetching}
-                      onClick={() =>
-                        handleRoleUpdate({ _id: user._id, role: "user" })
-                      }
-                      className="inline-flex h-8 items-center rounded-md bg-destructive px-3 text-xs font-medium text-destructive-foreground hover:bg-destructive/90 disabled:pointer-events-none disabled:opacity-50"
-                    >
-                      Demote
-                    </button>
-                  ) : (
-                    <button
-                      disabled={isPending || isFetching}
-                      onClick={() =>
-                        handleRoleUpdate({ _id: user._id, role: "admin" })
-                      }
-                      className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
-                    >
-                      Promote
-                    </button>
-                  )}
-                </TableCell>
+        {isLoading ? (
+          <div className="flex h-48 flex-col items-center justify-center gap-4">
+            <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-gray-900" />
+            <p className="text-sm text-muted-foreground">Loading users...</p>
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[200px]">Name</TableHead>
+                <TableHead className="hidden md:table-cell">Email</TableHead>
+                <TableHead className="w-[100px]">Role</TableHead>
+                <TableHead className="w-[100px] text-right">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {users?.map((user) => (
+                <TableRow key={user._id}>
+                  <TableCell className="font-medium">{user.name}</TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {user.email}
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${
+                        user.role === "admin"
+                          ? "bg-primary/10 text-primary"
+                          : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {user.role}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {user.role === "admin" ? (
+                      <button
+                        disabled={isPending || isFetching}
+                        onClick={() =>
+                          handleRoleUpdate({ _id: user._id, role: "user" })
+                        }
+                        className="inline-flex h-8 items-center rounded-md bg-destructive px-3 text-xs font-medium text-destructive-foreground hover:bg-destructive/90 disabled:pointer-events-none disabled:opacity-50"
+                      >
+                        Demote
+                      </button>
+                    ) : (
+                      <button
+                        disabled={isPending || isFetching}
+                        onClick={() =>
+                          handleRoleUpdate({ _id: user._id, role: "admin" })
+                        }
+                        className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+                      >
+                        Promote
+                      </button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </div>
   );

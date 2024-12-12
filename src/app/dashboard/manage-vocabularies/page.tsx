@@ -38,7 +38,7 @@ import { JSX, useState } from "react";
 import toast from "react-hot-toast";
 
 interface Vocabulary {
-  _id: string;
+  readonly _id: string;
   lessonNo: number;
   word: string;
   meaning: string;
@@ -57,7 +57,7 @@ export default function ManageVocabularies(): JSX.Element {
     null
   );
 
-  const { data: vocabularies = [] } = useQuery<Vocabulary[]>({
+  const { data: vocabularies = [], isLoading } = useQuery<Vocabulary[]>({
     queryKey: ["get-vocabularies"],
     queryFn: async (): Promise<Vocabulary[]> => {
       const { vocabularies } = await getVocabularies();
@@ -125,47 +125,71 @@ export default function ManageVocabularies(): JSX.Element {
       </div>
 
       <div className="mx-auto overflow-x-auto rounded-lg border md:max-w-lg lg:max-w-3xl xl:max-w-full">
-        <Table>
-          <TableHeader>
-            <TableRow className="text-nowrap">
-              <TableHead>Lesson No</TableHead>
-              <TableHead>Word</TableHead>
-              <TableHead>Meaning</TableHead>
-              <TableHead>Pronunciation</TableHead>
-              <TableHead>When To Say</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {vocabularies.map((vocabulary) => (
-              <TableRow key={vocabulary._id} className="text-nowrap">
-                <TableCell className="text-center">
-                  {vocabulary.lessonNo}
-                </TableCell>
-                <TableCell className="font-medium">{vocabulary.word}</TableCell>
-                <TableCell>{vocabulary.meaning}</TableCell>
-                <TableCell>{vocabulary.pronunciation}</TableCell>
-                <TableCell>{vocabulary.whenToSay}</TableCell>
-                <TableCell className="flex flex-col gap-2 text-right md:flex-row">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setVocabularyToEdit(vocabulary)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => setVocabularyToDelete(vocabulary._id)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {isLoading ? (
+          <div className="flex min-h-[200px] items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+              <p className="text-sm text-muted-foreground">
+                Loading vocabularies...
+              </p>
+            </div>
+          </div>
+        ) : (
+          <>
+            {vocabularies.length === 0 ? (
+              <div className="flex h-48 items-center justify-center py-10 text-center">
+                <p className="text-muted-foreground">
+                  No vocabularies found. Add your first vocabulary to get
+                  started.
+                </p>
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow className="text-nowrap">
+                    <TableHead>Lesson No</TableHead>
+                    <TableHead>Word</TableHead>
+                    <TableHead>Meaning</TableHead>
+                    <TableHead>Pronunciation</TableHead>
+                    <TableHead>When To Say</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {vocabularies.map((vocabulary) => (
+                    <TableRow key={vocabulary._id} className="text-nowrap">
+                      <TableCell className="text-center">
+                        {vocabulary.lessonNo}
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {vocabulary.word}
+                      </TableCell>
+                      <TableCell>{vocabulary.meaning}</TableCell>
+                      <TableCell>{vocabulary.pronunciation}</TableCell>
+                      <TableCell>{vocabulary.whenToSay}</TableCell>
+                      <TableCell className="flex flex-col gap-2 text-right md:flex-row">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setVocabularyToEdit(vocabulary)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => setVocabularyToDelete(vocabulary._id)}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </>
+        )}
       </div>
 
       {/* Edit Dialog */}
@@ -338,14 +362,6 @@ export default function ManageVocabularies(): JSX.Element {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      {vocabularies.length === 0 && (
-        <div className="py-10 text-center">
-          <p className="text-muted-foreground">
-            No vocabularies found. Add your first vocabulary to get started.
-          </p>
-        </div>
-      )}
     </div>
   );
 }

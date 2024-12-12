@@ -46,7 +46,7 @@ export default function ManageLessons(): JSX.Element {
   const [lessonToDelete, setLessonToDelete] = useState<number | null>(null);
   const [lessonToEdit, setLessonToEdit] = useState<Lesson | null>(null);
 
-  const { data: lessons = [] } = useQuery<Lesson[]>({
+  const { data: lessons = [], isLoading } = useQuery<Lesson[]>({
     queryKey: ["get-lessons"],
     queryFn: async (): Promise<Lesson[]> => {
       const { lessons } = await getLessons();
@@ -107,50 +107,61 @@ export default function ManageLessons(): JSX.Element {
       </div>
 
       <div className="rounded-md border bg-white shadow">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Lesson No</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Description
-              </TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {lessons?.map((lesson) => (
-              <TableRow key={lesson.lessonNo}>
-                <TableCell className="font-medium">{lesson.lessonNo}</TableCell>
-                <TableCell>{lesson.name}</TableCell>
-                <TableCell className="hidden max-w-[200px] truncate md:table-cell">
-                  {lesson.description}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => setLessonToEdit(lesson)}
-                      className="inline-flex h-8 items-center rounded-md bg-primary/10 px-3 text-xs font-medium text-primary hover:bg-primary/20"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => setLessonToDelete(lesson.lessonNo)}
-                      className="inline-flex h-8 items-center rounded-md bg-destructive/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/20"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-
-        {lessons.length === 0 && (
-          <div className="flex h-32 items-center justify-center text-sm text-muted-foreground">
-            No lessons found. Add your first lesson to get started.
+        {isLoading ? (
+          <div className="flex h-48 flex-col items-center justify-center gap-4">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <p className="text-sm text-muted-foreground">Loading lessons...</p>
           </div>
+        ) : (
+          <>
+            {lessons.length === 0 ? (
+              <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
+                No lessons found. Add your first lesson to get started.
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Lesson No</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead className="hidden md:table-cell">
+                      Description
+                    </TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {lessons?.map((lesson) => (
+                    <TableRow key={lesson.lessonNo}>
+                      <TableCell className="font-medium">
+                        {lesson.lessonNo}
+                      </TableCell>
+                      <TableCell>{lesson.name}</TableCell>
+                      <TableCell className="hidden max-w-[200px] truncate md:table-cell">
+                        {lesson.description}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() => setLessonToEdit(lesson)}
+                            className="inline-flex h-8 items-center rounded-md bg-primary/10 px-3 text-xs font-medium text-primary hover:bg-primary/20"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => setLessonToDelete(lesson.lessonNo)}
+                            className="inline-flex h-8 items-center rounded-md bg-destructive/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/20"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </>
         )}
       </div>
 

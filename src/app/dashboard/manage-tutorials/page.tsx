@@ -49,7 +49,7 @@ export default function ManageTutorials(): JSX.Element {
   const [tutorialToDelete, setTutorialToDelete] = useState<string | null>(null);
   const [tutorialToEdit, setTutorialToEdit] = useState<Tutorial | null>(null);
 
-  const { data: tutorials = [] } = useQuery<Tutorial[]>({
+  const { data: tutorials = [], isLoading } = useQuery<Tutorial[]>({
     queryKey: ["get-tutorials"],
     queryFn: async (): Promise<Tutorial[]> => {
       const { tutorials } = await getAllTutorials();
@@ -110,46 +110,57 @@ export default function ManageTutorials(): JSX.Element {
       </div>
 
       <div className="rounded-md border bg-white shadow">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>No.</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Video ID</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {tutorials?.map((tutorial) => (
-              <TableRow key={tutorial._id}>
-                <TableCell>{tutorials.indexOf(tutorial) + 1}</TableCell>
-                <TableCell>{tutorial.title}</TableCell>
-                <TableCell>{tutorial.videoId}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => setTutorialToEdit(tutorial)}
-                      className="inline-flex h-8 items-center rounded-md bg-primary/10 px-3 text-xs font-medium text-primary hover:bg-primary/20"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => setTutorialToDelete(tutorial._id)}
-                      className="inline-flex h-8 items-center rounded-md bg-destructive/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/20"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-
-        {tutorials.length === 0 && (
-          <div className="flex h-32 items-center justify-center text-sm text-muted-foreground">
-            No tutorials found. Add your first tutorial to get started.
+        {isLoading ? (
+          <div className="flex h-48 flex-col items-center justify-center gap-4">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <p className="text-sm text-muted-foreground">
+              Loading tutorials.....
+            </p>
           </div>
+        ) : (
+          <>
+            {tutorials.length === 0 ? (
+              <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
+                No tutorials found. Add your first tutorial to get started.
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>No.</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Video ID</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {tutorials?.map((tutorial) => (
+                    <TableRow key={tutorial._id}>
+                      <TableCell>{tutorials.indexOf(tutorial) + 1}</TableCell>
+                      <TableCell>{tutorial.title}</TableCell>
+                      <TableCell>{tutorial.videoId}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() => setTutorialToEdit(tutorial)}
+                            className="inline-flex h-8 items-center rounded-md bg-primary/10 px-3 text-xs font-medium text-primary hover:bg-primary/20"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => setTutorialToDelete(tutorial._id)}
+                            className="inline-flex h-8 items-center rounded-md bg-destructive/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/20"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </>
         )}
       </div>
 
