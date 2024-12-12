@@ -22,6 +22,11 @@ const DashboardPage = () => {
           link="/dashboard/add-vocabularies"
         />
         <DashboardCard
+          title="Add Tutorials"
+          description="Add new vocabulary items to lessons"
+          link="/dashboard/add-tutorials"
+        />
+        <DashboardCard
           title="Manage Users"
           description="Manage user roles and permissions"
           link="/dashboard/manage-users"
@@ -35,6 +40,11 @@ const DashboardPage = () => {
           title="Vocabulary Management"
           description="Manage vocabulary sets for lessons"
           link="/dashboard/manage-vocabularies"
+        />
+        <DashboardCard
+          title="Tutorials Management"
+          description="Manage tutorials of embedded youtube videos"
+          link="/dashboard/manage-tutorials"
         />
       </div>
     </div>

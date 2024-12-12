@@ -41,6 +41,12 @@ export default function DashboardLayout({
               Add Vocabularies
             </Link>
             <Link
+              href="/dashboard/add-tutorials"
+              className={`${pathname === "/dashboard/add-tutorials" ? "text-green-500" : ""} block hover:text-gray-300`}
+            >
+              Add Tutorials
+            </Link>
+            <Link
               href="/dashboard/manage-users"
               className={`${pathname === "/dashboard/manage-users" ? "text-green-500" : ""} block hover:text-gray-300`}
             >
@@ -58,10 +64,16 @@ export default function DashboardLayout({
             >
               Manage Vocabularies
             </Link>
+            <Link
+              href="/dashboard/manage-tutorials"
+              className={`${pathname === "/dashboard/manage-tutorials" ? "text-green-500" : ""} block hover:text-gray-300`}
+            >
+              Manage Tutorials
+            </Link>
           </nav>
         </aside>
       )}
-      <main className="flex-1 container mx-auto">{children}</main>
+      <main className="container mx-auto flex-1">{children}</main>
     </div>
   );
 }
