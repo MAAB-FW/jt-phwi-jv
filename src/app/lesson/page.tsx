@@ -3,6 +3,7 @@
 import { getLessons, getVocabularyCountALesson } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { JSX } from "react";
 
 interface Lesson {
   lessonNo: number;
@@ -122,7 +123,8 @@ export default function LessonsPage() {
     </div>
   );
 }
-export function VC({ lessonNo }: { lessonNo: number }) {
+
+function VC({ lessonNo }: { lessonNo: number }): JSX.Element {
   const { data: count = 0 } = useQuery({
     queryKey: ["get-vocabulary-count", lessonNo],
     queryFn: async () => {
