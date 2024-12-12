@@ -39,7 +39,7 @@ import Link from "next/link";
 import { JSX, useState } from "react";
 import toast from "react-hot-toast";
 
-interface Tutorial {
+export interface Tutorial {
   readonly _id: string;
   title: string;
   videoId: string;

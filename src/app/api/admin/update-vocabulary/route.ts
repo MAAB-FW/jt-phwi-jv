@@ -1,11 +1,7 @@
-import { VocabularyFormData } from "@/app/dashboard/add-vocabularies/page";
+import { Vocabulary } from "@/app/dashboard/manage-vocabularies/page";
 import { connectDB } from "@/lib/connectDB";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
-
-interface NewVoc extends VocabularyFormData {
-  _id: string;
-}
 
 export const PATCH = async (req: Request) => {
   const db = await connectDB();
@@ -19,7 +15,7 @@ export const PATCH = async (req: Request) => {
     example,
     exampleMeaning,
     adminMail,
-  }: NewVoc = await req.json();
+  }: Vocabulary = await req.json();
 
   const vocabularyCollection = db.collection("vocabulary");
   if (

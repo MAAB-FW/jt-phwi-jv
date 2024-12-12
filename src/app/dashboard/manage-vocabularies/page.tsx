@@ -37,7 +37,7 @@ import Link from "next/link";
 import { JSX, useState } from "react";
 import toast from "react-hot-toast";
 
-interface Vocabulary {
+export interface Vocabulary {
   readonly _id: string;
   lessonNo: number;
   word: string;

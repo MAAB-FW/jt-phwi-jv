@@ -9,7 +9,6 @@ export const PATCH = async (
   const db = await connectDB();
   const { role }: { role: "admin" | "user" } = await req.json();
   const _id = (await params).id;
-  console.log("🚀 ~ _id:", _id)
 
   const usersCollection = db.collection("users");
   if (role !== "admin" && role !== "user") {

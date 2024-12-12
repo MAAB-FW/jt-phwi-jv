@@ -1,15 +1,11 @@
-import { TutorialFormData } from "@/app/dashboard/add-tutorials/page";
+import { Tutorial } from "@/app/dashboard/manage-tutorials/page";
 import { connectDB } from "@/lib/connectDB";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
-interface NewTutorial extends TutorialFormData {
-  readonly _id: string;
-}
-
 export const PATCH = async (req: Request) => {
   const db = await connectDB();
-  const { _id, title, videoId }: NewTutorial = await req.json();
+  const { _id, title, videoId }: Tutorial = await req.json();
 
   const tutorialsCollection = db.collection("tutorials");
   if (!_id || !title || !videoId) {
