@@ -175,3 +175,16 @@ export const updateVocabulary = async (data: VocabularyFormData) => {
     return {};
   }
 };
+
+// get vocabulary count for a lesson
+export const getVocabularyCountALesson = async (lessonNo: number) => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/vocabulary-count/${lessonNo}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
