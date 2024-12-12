@@ -1,12 +1,7 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default function Footer() {
-  const pathname = usePathname();
-  if (pathname === "/login" || pathname === "/register") {
-    return null;
-  }
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-8">
@@ -32,18 +27,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   Japanese Dictionary
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   Track Progress
                 </Link>
               </li>
@@ -55,26 +44,17 @@ export default function Footer() {
             <h3 className="mb-4 text-lg font-semibold">Community</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   Discussion Forum
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   Study Groups
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   Language Events
                 </Link>
               </li>
@@ -86,26 +66,17 @@ export default function Footer() {
             <h3 className="mb-4 text-lg font-semibold">Support</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/" className="transition-colors hover:text-white">
                   Feedback
                 </Link>
               </li>
