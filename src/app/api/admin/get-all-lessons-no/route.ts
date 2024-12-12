@@ -8,7 +8,7 @@ export const GET = async () => {
   const lessonsCollection = db.collection("lessons");
   try {
     const lessons = await lessonsCollection
-      .find({}, { projection: { lessonNo: 1, _id: 1 } })
+      .find({}, { projection: { lessonNo: 1, _id: 1, name: 1 } })
       .toArray();
     return NextResponse.json({ lessons });
   } catch (error) {
