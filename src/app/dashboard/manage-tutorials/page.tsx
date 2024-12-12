@@ -109,7 +109,7 @@ export default function ManageTutorials(): JSX.Element {
         </Link>
       </div>
 
-      <div className="rounded-md border bg-white shadow">
+      <div className="mx-auto rounded-md border bg-white shadow md:max-w-md lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full">
         {isLoading ? (
           <div className="flex h-48 flex-col items-center justify-center gap-4">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
