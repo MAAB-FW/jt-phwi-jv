@@ -13,7 +13,11 @@ interface User {
 }
 
 const ManageUsersPage = () => {
-  const { data: users, isLoading } = useQuery<User[]>({
+  const {
+    data: users,
+    isLoading,
+    isFetching,
+  } = useQuery<User[]>({
     queryKey: ["users"],
     queryFn: async () => {
       const { users } = await getAllUsers();
@@ -21,7 +25,7 @@ const ManageUsersPage = () => {
     },
   });
 
-  const { mutate: handleRoleUpdate } = useMutation<
+  const { mutate: handleRoleUpdate, isPending } = useMutation<
     { _id: string; role: "admin" | "user"; modifiedCount: number },
     Error,
     { _id: string; role: "admin" | "user" }
@@ -113,19 +117,21 @@ const ManageUsersPage = () => {
                   <td className="whitespace-nowrap px-4 py-4 text-sm sm:px-6">
                     {user.role === "admin" ? (
                       <button
+                        disabled={isPending || isFetching}
                         onClick={() =>
                           handleRoleUpdate({ _id: user._id, role: "user" })
                         }
-                        className="rounded-md bg-red-500 px-3 py-1.5 text-xs text-white hover:bg-red-600 sm:px-4 sm:py-2 sm:text-sm"
+                        className="rounded-md bg-red-500 px-3 py-1.5 text-xs text-white hover:bg-red-600 disabled:cursor-not-allowed sm:px-4 sm:py-2 sm:text-sm"
                       >
                         Demote
                       </button>
                     ) : (
                       <button
+                        disabled={isPending || isFetching}
                         onClick={() =>
                           handleRoleUpdate({ _id: user._id, role: "admin" })
                         }
-                        className="rounded-md bg-blue-500 px-3 py-1.5 text-xs text-white hover:bg-blue-600 sm:px-4 sm:py-2 sm:text-sm"
+                        className="rounded-md bg-blue-500 px-3 py-1.5 text-xs text-white hover:bg-blue-600 disabled:cursor-not-allowed sm:px-4 sm:py-2 sm:text-sm"
                       >
                         Promote
                       </button>
