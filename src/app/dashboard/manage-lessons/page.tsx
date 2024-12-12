@@ -36,7 +36,8 @@ import Link from "next/link";
 import { JSX, useState } from "react";
 import toast from "react-hot-toast";
 
-interface Lesson {
+export interface Lesson {
+  readonly _id: string;
   lessonNo: number;
   name: string;
   description: string;
@@ -178,7 +179,11 @@ export default function ManageLessons(): JSX.Element {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (!lessonToEdit.name || !lessonToEdit.description) {
+                if (
+                  !lessonToEdit.lessonNo ||
+                  !lessonToEdit.name ||
+                  !lessonToEdit.description
+                ) {
                   return toast.error("Please fill in all fields");
                 }
                 handleUpdateSubmit(lessonToEdit);
@@ -191,8 +196,12 @@ export default function ManageLessons(): JSX.Element {
                     id="lessonNo"
                     type="number"
                     value={lessonToEdit.lessonNo}
-                    disabled
-                    className="bg-muted"
+                    onChange={(e) => {
+                      setLessonToEdit({
+                        ...lessonToEdit,
+                        lessonNo: parseInt(e.target.value),
+                      });
+                    }}
                   />
                 </div>
                 <div className="grid gap-2">
