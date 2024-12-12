@@ -216,3 +216,16 @@ export const getAllTutorials = async () => {
     return [];
   }
 };
+
+// delete tutorial
+export const deleteTutorial = async (_id: string) => {
+  try {
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/delete-tutorial/${_id}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
