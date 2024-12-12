@@ -160,7 +160,7 @@ export default function ManageLessons(): JSX.Element {
           open={!!lessonToEdit}
           onOpenChange={() => setLessonToEdit(null)}
         >
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Update Lesson</DialogTitle>
             </DialogHeader>
@@ -212,7 +212,7 @@ export default function ManageLessons(): JSX.Element {
                   />
                 </div>
               </div>
-              <DialogFooter>
+              <DialogFooter className="gap-2">
                 <Button
                   type="button"
                   variant="outline"

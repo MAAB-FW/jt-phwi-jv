@@ -21,7 +21,6 @@ const Page = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onSubmit = async (data: TutorialFormData) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
     setIsLoading(true);
 
     try {
