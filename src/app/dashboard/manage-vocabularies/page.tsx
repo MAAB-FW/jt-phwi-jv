@@ -115,8 +115,8 @@ export default function ManageVocabularies(): JSX.Element {
 
   return (
     <div className="h-full space-y-6 p-4 md:p-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">
+      <div className="flex flex-col items-center justify-between sm:flex-row">
+        <h1 className="text-xl font-bold tracking-tight sm:text-2xl">
           Manage Vocabularies
         </h1>
         <Link href="/dashboard/add-vocabularies">
@@ -124,36 +124,28 @@ export default function ManageVocabularies(): JSX.Element {
         </Link>
       </div>
 
-      <div className="rounded-lg border">
+      <div className="mx-auto overflow-x-auto rounded-lg border md:max-w-lg lg:max-w-3xl xl:max-w-full">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="text-nowrap">
               <TableHead>Lesson No</TableHead>
               <TableHead>Word</TableHead>
-              <TableHead className="">Meaning</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Pronunciation
-              </TableHead>
-              <TableHead className="hidden md:table-cell">
-                When To Say
-              </TableHead>
+              <TableHead>Meaning</TableHead>
+              <TableHead>Pronunciation</TableHead>
+              <TableHead>When To Say</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {vocabularies.map((vocabulary) => (
-              <TableRow key={vocabulary._id}>
+              <TableRow key={vocabulary._id} className="text-nowrap">
                 <TableCell className="text-center">
                   {vocabulary.lessonNo}
                 </TableCell>
                 <TableCell className="font-medium">{vocabulary.word}</TableCell>
-                <TableCell className="">{vocabulary.meaning}</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {vocabulary.pronunciation}
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {vocabulary.whenToSay}
-                </TableCell>
+                <TableCell>{vocabulary.meaning}</TableCell>
+                <TableCell>{vocabulary.pronunciation}</TableCell>
+                <TableCell>{vocabulary.whenToSay}</TableCell>
                 <TableCell className="flex flex-col gap-2 text-right md:flex-row">
                   <Button
                     variant="outline"
