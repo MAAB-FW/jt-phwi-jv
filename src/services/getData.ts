@@ -150,3 +150,28 @@ export const getVocabularies = async () => {
     return [];
   }
 };
+
+export const deleteVocabulary = async (_id: string) => {
+  try {
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/delete-vocabulary/${_id}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
+export const updateVocabulary = async (data: VocabularyFormData) => {
+  try {
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/update-vocabulary`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
