@@ -28,7 +28,7 @@ const LessonsPage = () => {
   });
 
   return (
-    <div className="p-6">
+    <div className="container mx-auto sm:p-5">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">
