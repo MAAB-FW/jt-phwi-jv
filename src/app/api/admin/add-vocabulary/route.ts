@@ -1,4 +1,4 @@
-import { VucabularyFormData } from "@/app/dashboard/add-vocabularies/page";
+import { VocabularyFormData } from "@/app/dashboard/add-vocabularies/page";
 import { connectDB } from "@/lib/connectDB";
 import { NextResponse } from "next/server";
 
@@ -13,8 +13,8 @@ export const POST = async (req: Request) => {
     adminMail,
     example,
     exampleMeaning,
-  }: VucabularyFormData = await req.json();
-  const vucabularyCollection = db.collection("vucabulary");
+  }: VocabularyFormData = await req.json();
+  const vocabularyCollection = db.collection("vocabulary");
 
   if (
     !lessonNo ||
@@ -39,16 +39,16 @@ export const POST = async (req: Request) => {
     });
   }
 
-  const isExist = await vucabularyCollection.findOne({ word });
+  const isExist = await vocabularyCollection.findOne({ word });
   if (isExist) {
     return NextResponse.json({
-      message: "Vucabulary already exists!",
+      message: "Vocabulary already exists!",
       status: 400,
     });
   }
 
   try {
-    const res = await vucabularyCollection.insertOne({
+    const res = await vocabularyCollection.insertOne({
       word,
       meaning,
       pronunciation,

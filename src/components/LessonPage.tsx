@@ -1,4 +1,4 @@
-import { getVucabulariesOfLesson } from "@/services/getData";
+import {  getVocabulariesOfLesson } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,12 +14,12 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
     height: typeof window !== "undefined" ? window.innerHeight : 0,
   });
   const router = useRouter();
-  const { data: vucabularies = [], isLoading } = useQuery({
-    queryKey: ["get-vucabularies-of-lesson", lessonNo],
+  const { data: vocabularies = [], isLoading } = useQuery({
+    queryKey: ["get-vocabularies-of-lesson", lessonNo],
     queryFn: async () => {
-      const { vucabularies } = await getVucabulariesOfLesson(Number(lessonNo));
+      const { vocabularies } = await getVocabulariesOfLesson(Number(lessonNo));
 
-      return vucabularies;
+      return vocabularies;
     },
   });
 
@@ -96,8 +96,8 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
 
   const handleNext = () => {
     setCurrentIndex((prev) => {
-      const newIndex = prev < vucabularies.length - 1 ? prev + 1 : prev;
-      if (newIndex === vucabularies.length - 1) {
+      const newIndex = prev < vocabularies.length - 1 ? prev + 1 : prev;
+      if (newIndex === vocabularies.length - 1) {
         setHasViewedAll(true);
       }
       return newIndex;
@@ -117,7 +117,7 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
     window.speechSynthesis.speak(utterance);
   };
 
-  const currentWord = vucabularies[currentIndex];
+  const currentWord = vocabularies[currentIndex];
 
   if (isLoading)
     return (
@@ -201,7 +201,7 @@ export function LessonPage({ lessonNo }: { lessonNo: string }) {
           </button>
 
           <span className="text-nowrap text-gray-600">
-            {currentIndex + 1} of {vucabularies.length}
+            {currentIndex + 1} of {vocabularies.length}
           </span>
 
           <button

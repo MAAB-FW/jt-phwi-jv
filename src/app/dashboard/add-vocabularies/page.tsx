@@ -1,6 +1,6 @@
 "use client";
 
-import { addVucabulary, getAllLessonsNo } from "@/services/getData";
+import { addVocabulary, getAllLessonsNo } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { CgSpinner } from "react-icons/cg";
 
-export interface VucabularyFormData {
+export interface VocabularyFormData {
   lessonNo: number;
   word: string;
   meaning: string;
@@ -35,10 +35,10 @@ export default function AddLesson() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<VucabularyFormData>();
+  } = useForm<VocabularyFormData>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: VucabularyFormData) => {
+  const onSubmit = async (data: VocabularyFormData) => {
     data.adminMail = session?.user?.email || "";
 
     if (
@@ -55,13 +55,13 @@ export default function AddLesson() {
     }
     setIsLoading(true);
     try {
-      const response = await addVucabulary({
+      const response = await addVocabulary({
         ...data,
         lessonNo: Number(data.lessonNo),
       });
 
       if (response.insertedId) {
-        toast.success("Vucabulary added successfully!");
+        toast.success("Vocabulary added successfully!");
         reset();
         setIsLoading(false);
         return;

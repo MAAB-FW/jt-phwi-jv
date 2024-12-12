@@ -10,12 +10,12 @@ export const GET = async (
   const db = await connectDB();
   const lessonNo = Number((await params).lessonNo);
 
-  const vucabularyCollection = db.collection("vucabulary");
+  const vocabularyCollection = db.collection("vocabulary");
   try {
-    const vucabularies = await vucabularyCollection
+    const vocabularies = await vocabularyCollection
       .find({ lessonNo })
       .toArray();
-    return NextResponse.json({ vucabularies });
+    return NextResponse.json({ vocabularies });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: "Something went wrong!", status: 500 });
