@@ -1,18 +1,20 @@
-import { LessonFormData } from "@/app/dashboard/add-lessons/page";
+import { Lesson } from "@/app/dashboard/manage-lessons/page";
 import { connectDB } from "@/lib/connectDB";
+import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export const PATCH = async (req: Request) => {
   const db = await connectDB();
-  const { lessonNo, name, description }: LessonFormData = await req.json();
+  const { _id, lessonNo, name, description }: Lesson = await req.json();
 
   const lessonCollection = db.collection("lessons");
-  if (!lessonNo || !name || !description) {
+  if (!_id || !lessonNo || !name || !description) {
     return NextResponse.json({
       message: "All fields are required!",
       status: 400,
     });
   }
+
   if (typeof lessonNo !== "number") {
     return NextResponse.json({
       message: "Lesson number must be a number!",
@@ -20,7 +22,7 @@ export const PATCH = async (req: Request) => {
     });
   }
 
-  const isExist = await lessonCollection.findOne({ lessonNo });
+  const isExist = await lessonCollection.findOne({ _id: new ObjectId(_id) });
   if (!isExist) {
     return NextResponse.json({
       message: "Lesson doesn't exists!",
@@ -30,10 +32,11 @@ export const PATCH = async (req: Request) => {
 
   try {
     const res = await lessonCollection.updateOne(
-      { lessonNo },
+      { _id: new ObjectId(_id) },
       {
         $set: {
           name,
+          lessonNo,
           description,
         },
       }
