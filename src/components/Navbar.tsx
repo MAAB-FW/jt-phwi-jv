@@ -3,6 +3,7 @@
 import { getUserInfo } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -31,9 +32,16 @@ const Navbar: React.FC = () => {
           <div className="flex-shrink-0">
             <Link
               href="/"
-              className="text-2xl font-extrabold tracking-tight text-blue-400 transition-colors hover:text-blue-300"
+              className="flex text-2xl font-extrabold tracking-tight text-blue-400 transition-colors hover:text-blue-300"
             >
-              Nihongo Nexus
+              <Image
+                src={"/favicon.ico"}
+                alt="Nihongo Nexus"
+                width={25}
+                height={25}
+                className="-mr-px object-cover"
+              />
+              ihongo Nexus
             </Link>
           </div>
 
