@@ -23,7 +23,7 @@ export default function Footer() {
                   href="/tutorials"
                   className="transition-colors hover:text-white"
                 >
-                  Practice Exercises
+                  Tutorials
                 </Link>
               </li>
               <li>
