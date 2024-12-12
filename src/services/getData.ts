@@ -1,6 +1,7 @@
 import { LessonFormData } from "@/app/dashboard/add-lessons/page";
 import { TutorialFormData } from "@/app/dashboard/add-tutorials/page";
 import { VocabularyFormData } from "@/app/dashboard/add-vocabularies/page";
+import { Lesson } from "@/app/dashboard/manage-lessons/page";
 import axios from "axios";
 
 export const getUserInfo = async (email: string) => {
@@ -57,7 +58,7 @@ export const deleteLesson = async (lessonNo: number) => {
 };
 
 // update lesson
-export const updateLesson = async (lesson: LessonFormData) => {
+export const updateLesson = async (lesson: Lesson) => {
   try {
     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/update-lesson`,
