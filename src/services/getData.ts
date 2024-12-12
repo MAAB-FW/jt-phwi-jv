@@ -1,5 +1,5 @@
 import { LessonFormData } from "@/app/dashboard/add-lessons/page";
-import { VucabularyFormData } from "@/app/dashboard/add-vocabularies/page";
+import { VocabularyFormData } from "@/app/dashboard/add-vocabularies/page";
 import axios from "axios";
 
 export const getUserInfo = async (email: string) => {
@@ -98,11 +98,11 @@ export const updateUserRole = async (_id: string, role: "admin" | "user") => {
   }
 };
 
-// add vucabulary
-export const addVucabulary = async (data: VucabularyFormData) => {
+// add vocabulary
+export const addVocabulary = async (data: VocabularyFormData) => {
   try {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/add-vucabulary`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/add-vocabulary`,
       data
     );
     return res.data;
@@ -125,11 +125,24 @@ export const getAllLessonsNo = async () => {
   }
 };
 
-// get vucabularies for a lesson
-export const getVucabulariesOfLesson = async (lessonNo: number) => {
+// get vocabularies for a lesson
+export const getVocabulariesOfLesson = async (lessonNo: number) => {
   try {
     const res = await axios(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/get-vucabularies/${lessonNo}`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/get-vocabularies/${lessonNo}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+// get all vocabularies
+export const getVocabularies = async () => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/get-vocabularies`
     );
     return res.data;
   } catch (error) {
