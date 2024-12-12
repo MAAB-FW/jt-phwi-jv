@@ -28,6 +28,7 @@ export default function ManageLessons(): JSX.Element {
   const { mutate } = useMutation({
     mutationKey: ["delete-lesson"],
     mutationFn: async (lessonNo: number): Promise<{ deletedCount: number }> => {
+      setLessonToDelete(null);
       const res = await deleteLesson(lessonNo);
       console.log(res);
       return { deletedCount: res.deletedCount };
