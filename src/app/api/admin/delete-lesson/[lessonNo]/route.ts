@@ -7,6 +7,9 @@ export const DELETE = async (
 ) => {
   const db = await connectDB();
   const lessonNo = Number((await params).lessonNo);
+  if (!lessonNo) {
+    return NextResponse.json({ message: "Invalid lesson number", status: 400 });
+  }
 
   try {
     const res = await db.collection("lessons").deleteOne({ lessonNo });
