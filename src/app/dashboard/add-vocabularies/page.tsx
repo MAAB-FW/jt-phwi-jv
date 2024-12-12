@@ -94,9 +94,9 @@ export default function AddLesson() {
               >
                 <option value="">Select a lesson</option>
                 {lessonsNos?.map(
-                  (lesson: { lessonNo: number; name: string }) => (
-                    <option key={lesson.lessonNo} value={lesson.lessonNo}>
-                      Lesson {lesson.lessonNo}
+                  (lesson: { lessonNo: number; name: string; _id: string }) => (
+                    <option key={lesson._id} value={lesson.lessonNo}>
+                      Lesson {lesson.lessonNo} - {lesson.name}
                     </option>
                   )
                 )}
