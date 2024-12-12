@@ -1,6 +1,6 @@
 "use client";
 
-import { getLessons } from "@/services/getData";
+import { getLessons, getVocabularyCountALesson } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
@@ -46,7 +46,7 @@ interface Lesson {
 export default function LessonsPage() {
   // const router = useRouter();
 
-  const { data: lessons = [] } = useQuery<Lesson[]>({
+  const { data: lessons = [], isLoading } = useQuery<Lesson[]>({
     queryKey: ["get-lessons"],
     queryFn: async () => {
       const { lessons } = await getLessons();
@@ -58,22 +58,82 @@ export default function LessonsPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="mb-8 text-3xl font-bold">Japanese Vocabulary Lessons</h1>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {lessons.map((lesson) => (
-          <Link
-            href={`/lesson/${lesson.lessonNo}`}
-            key={lesson.lessonNo}
-            className="cursor-pointer rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
-            // onClick={() => router.push(`/lesson/${lesson.id}`)}
-          >
-            <div className="space-y-2 p-6">
-              <h2 className="text-xl font-semibold">
-                Lesson {lesson.lessonNo}: {lesson.name}
-              </h2>
-              <p className="text-gray-600">{lesson.description}</p>
+        {isLoading ? (
+          <>
+            <div className="group relative animate-pulse overflow-hidden rounded-xl bg-white p-1 shadow-md">
+              <div className="space-y-3 rounded-lg bg-gradient-to-br from-white to-gray-50 p-6">
+                <div className="flex items-start justify-between">
+                  <div className="h-6 w-1/2 rounded bg-gray-200"></div>
+                  <div className="h-4 w-1/4 rounded bg-gray-200"></div>
+                </div>
+                <div className="mt-1 h-6 w-full rounded bg-gray-200"></div>
+                <div className="h-6 w-full rounded bg-gray-200 pt-2"></div>
+              </div>
             </div>
-          </Link>
-        ))}
+            <div className="group relative animate-pulse overflow-hidden rounded-xl bg-white p-1 shadow-md">
+              <div className="space-y-3 rounded-lg bg-gradient-to-br from-white to-gray-50 p-6">
+                <div className="flex items-start justify-between">
+                  <div className="h-6 w-1/2 rounded bg-gray-200"></div>
+                  <div className="h-4 w-1/4 rounded bg-gray-200"></div>
+                </div>
+                <div className="mt-1 h-6 w-full rounded bg-gray-200"></div>
+                <div className="h-6 w-full rounded bg-gray-200 pt-2"></div>
+              </div>
+            </div>
+            <div className="group relative animate-pulse overflow-hidden rounded-xl bg-white p-1 shadow-md">
+              <div className="space-y-3 rounded-lg bg-gradient-to-br from-white to-gray-50 p-6">
+                <div className="flex items-start justify-between">
+                  <div className="h-6 w-1/2 rounded bg-gray-200"></div>
+                  <div className="h-4 w-1/4 rounded bg-gray-200"></div>
+                </div>
+                <div className="mt-1 h-6 w-full rounded bg-gray-200"></div>
+                <div className="h-6 w-full rounded bg-gray-200 pt-2"></div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {lessons.map((lesson) => (
+              <Link
+                href={`/lesson/${lesson.lessonNo}`}
+                key={lesson.lessonNo}
+                className="group relative cursor-pointer overflow-hidden rounded-xl bg-white p-1 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="space-y-3 rounded-lg bg-gradient-to-br from-white to-gray-50 p-6">
+                  <div className="flex items-start justify-between">
+                    <h2 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600">
+                      {lesson.name}
+                    </h2>
+                    <span className="text-nowrap rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-600">
+                      Lesson {lesson.lessonNo}
+                    </span>
+                  </div>
+                  <p className="text-gray-600">{lesson.description}</p>
+                  <div className="pt-2">
+                    <VC lessonNo={lesson.lessonNo} />
+                  </div>
+                  <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                </div>
+              </Link>
+            ))}
+          </>
+        )}
       </div>
     </div>
+  );
+}
+export function VC({ lessonNo }: { lessonNo: number }) {
+  const { data: count = 0 } = useQuery({
+    queryKey: ["get-vocabulary-count", lessonNo],
+    queryFn: async () => {
+      const { count } = await getVocabularyCountALesson(lessonNo);
+      return count;
+    },
+  });
+
+  return (
+    <p className="mt-2 font-medium text-gray-600">
+      Vocabulary Count: <span className="text-indigo-600">{count}</span>
+    </p>
   );
 }
