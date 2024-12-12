@@ -1,4 +1,5 @@
 import { LessonFormData } from "@/app/dashboard/add-lessons/page";
+import { TutorialFormData } from "@/app/dashboard/add-tutorials/page";
 import { VocabularyFormData } from "@/app/dashboard/add-vocabularies/page";
 import axios from "axios";
 
@@ -181,6 +182,20 @@ export const getVocabularyCountALesson = async (lessonNo: number) => {
   try {
     const res = await axios(
       `${process.env.NEXT_PUBLIC_API_URL}/api/vocabulary-count/${lessonNo}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
+// add tutorial to database
+export const addTutorial = async (data: TutorialFormData) => {
+  try {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/add-tutorial`,
+      data
     );
     return res.data;
   } catch (error) {
