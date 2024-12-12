@@ -75,7 +75,7 @@ export default function AddLesson() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen py-8">
       <div className="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-lg">
         <h1 className="mb-8 text-center text-3xl font-bold text-gray-800">
           Add New Vocabulary
