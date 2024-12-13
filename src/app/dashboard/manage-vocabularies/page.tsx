@@ -127,7 +127,7 @@ export default function ManageVocabularies(): JSX.Element {
         </Link>
       </div>
 
-      <div className="mx-auto overflow-x-auto rounded-lg border md:max-w-md lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full">
+      <div className="mx-auto max-h-[90vh] overflow-auto rounded-lg border md:max-w-md lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full">
         {isLoading ? (
           <div className="flex min-h-[200px] items-center justify-center">
             <div className="flex flex-col items-center gap-4">
