@@ -79,12 +79,18 @@ export default function ManageTutorials(): JSX.Element {
     mutationKey: ["update-tutorial"],
     mutationFn: async (
       tutorial: Tutorial
-    ): Promise<{ modifiedCount: number }> => {
+    ): Promise<{ message: string; modifiedCount: number }> => {
       toast.loading("Updating...");
       const res = await updateTutorial(tutorial);
       return res;
     },
-    onSuccess: ({ modifiedCount }: { modifiedCount: number }) => {
+    onSuccess: ({
+      message,
+      modifiedCount,
+    }: {
+      message: string;
+      modifiedCount: number;
+    }) => {
       if (modifiedCount) {
         toast.dismiss();
         toast.success("Tutorial updated successfully!");
@@ -93,6 +99,7 @@ export default function ManageTutorials(): JSX.Element {
       } else {
         setTutorialToEdit(null);
         toast.dismiss();
+        toast.error(message);
       }
     },
   });
@@ -136,7 +143,9 @@ export default function ManageTutorials(): JSX.Element {
                 <TableBody>
                   {tutorials?.map((tutorial) => (
                     <TableRow key={tutorial._id} className="text-nowrap">
-                      <TableCell className="text-center">{tutorials.indexOf(tutorial) + 1}</TableCell>
+                      <TableCell className="text-center">
+                        {tutorials.indexOf(tutorial) + 1}
+                      </TableCell>
                       <TableCell className="max-w-[300px] truncate">
                         {tutorial.title}
                       </TableCell>

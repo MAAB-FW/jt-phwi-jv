@@ -76,13 +76,21 @@ export default function ManageLessons(): JSX.Element {
 
   const { mutate: handleUpdateSubmit } = useMutation({
     mutationKey: ["update-lesson"],
-    mutationFn: async (lesson: Lesson): Promise<{ modifiedCount: number }> => {
+    mutationFn: async (
+      lesson: Lesson
+    ): Promise<{ message: string; modifiedCount: number }> => {
       toast.loading("Updating...");
 
       const res = await updateLesson(lesson);
       return res;
     },
-    onSuccess: ({ modifiedCount }: { modifiedCount: number }) => {
+    onSuccess: ({
+      message,
+      modifiedCount,
+    }: {
+      message: string;
+      modifiedCount: number;
+    }) => {
       if (modifiedCount) {
         toast.dismiss();
         toast.success("Lesson updated successfully!");
@@ -91,6 +99,7 @@ export default function ManageLessons(): JSX.Element {
       } else {
         setLessonToEdit(null);
         toast.dismiss();
+        toast.error(message);
       }
     },
   });
@@ -199,7 +208,7 @@ export default function ManageLessons(): JSX.Element {
                     onChange={(e) => {
                       setLessonToEdit({
                         ...lessonToEdit,
-                        lessonNo: parseInt(e.target.value),
+                        lessonNo: Number(e.target.value),
                       });
                     }}
                   />

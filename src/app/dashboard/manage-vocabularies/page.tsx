@@ -95,12 +95,18 @@ export default function ManageVocabularies(): JSX.Element {
     mutationKey: ["update-vocabulary"],
     mutationFn: async (
       vocabulary: Vocabulary
-    ): Promise<{ modifiedCount: number }> => {
+    ): Promise<{ message: string; modifiedCount: number }> => {
       toast.loading("Updating...");
       const res = await updateVocabulary(vocabulary);
       return res;
     },
-    onSuccess: ({ modifiedCount }: { modifiedCount: number }) => {
+    onSuccess: ({
+      message,
+      modifiedCount,
+    }: {
+      message: string;
+      modifiedCount: number;
+    }) => {
       if (modifiedCount) {
         toast.dismiss();
         toast.success("Vocabulary updated successfully!");
@@ -109,6 +115,7 @@ export default function ManageVocabularies(): JSX.Element {
       } else {
         setVocabularyToEdit(null);
         toast.dismiss();
+        toast.error(message);
       }
     },
   });
