@@ -30,6 +30,14 @@ export const PATCH = async (req: Request) => {
     });
   }
 
+  const isLessonNoExist = await lessonCollection.findOne({ lessonNo });
+  if (isLessonNoExist) {
+    return NextResponse.json({
+      message: "Lesson number already exists!",
+      status: 400,
+    });
+  }
+
   try {
     const res = await lessonCollection.updateOne(
       { _id: new ObjectId(_id) },
