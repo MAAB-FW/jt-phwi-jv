@@ -127,7 +127,7 @@ export default function ManageTutorials(): JSX.Element {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>No.</TableHead>
+                    <TableHead className="text-center">No.</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Video ID</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
@@ -135,9 +135,11 @@ export default function ManageTutorials(): JSX.Element {
                 </TableHeader>
                 <TableBody>
                   {tutorials?.map((tutorial) => (
-                    <TableRow key={tutorial._id}>
-                      <TableCell>{tutorials.indexOf(tutorial) + 1}</TableCell>
-                      <TableCell>{tutorial.title}</TableCell>
+                    <TableRow key={tutorial._id} className="text-nowrap">
+                      <TableCell className="text-center">{tutorials.indexOf(tutorial) + 1}</TableCell>
+                      <TableCell className="max-w-[300px] truncate">
+                        {tutorial.title}
+                      </TableCell>
                       <TableCell>{tutorial.videoId}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">

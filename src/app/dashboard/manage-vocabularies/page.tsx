@@ -115,12 +115,15 @@ export default function ManageVocabularies(): JSX.Element {
 
   return (
     <div className="h-full space-y-6 p-4 md:p-6">
-      <div className="flex flex-col items-center justify-between sm:flex-row">
-        <h1 className="text-xl font-bold tracking-tight sm:text-2xl">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-bold tracking-tight">
           Manage Vocabularies
         </h1>
-        <Link href="/dashboard/add-vocabularies">
-          <Button>Add New Vocabulary</Button>
+        <Link
+          href="/dashboard/add-vocabularies"
+          className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+          Add New Vocabulary
         </Link>
       </div>
 

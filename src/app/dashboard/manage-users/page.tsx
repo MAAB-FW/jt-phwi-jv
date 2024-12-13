@@ -75,15 +75,19 @@ const ManageUsersPage = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-[100px] text-center">No</TableHead>
                 <TableHead className="w-[200px]">Name</TableHead>
                 <TableHead className="hidden md:table-cell">Email</TableHead>
                 <TableHead className="w-[100px]">Role</TableHead>
-                <TableHead className="w-[100px] text-right">Actions</TableHead>
+                <TableHead className="w-[100px] text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {users?.map((user) => (
                 <TableRow key={user._id}>
+                  <TableCell className="text-center font-medium">
+                    {users.indexOf(user) + 1}
+                  </TableCell>
                   <TableCell className="font-medium">{user.name}</TableCell>
                   <TableCell className="hidden md:table-cell">
                     {user.email}
@@ -99,7 +103,7 @@ const ManageUsersPage = () => {
                       {user.role}
                     </span>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-center">
                     {user.role === "admin" ? (
                       <button
                         disabled={isPending || isFetching}

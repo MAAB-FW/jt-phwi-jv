@@ -122,8 +122,8 @@ export default function ManageLessons(): JSX.Element {
             ) : (
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Lesson No</TableHead>
+                  <TableRow className="text-nowrap">
+                    <TableHead className="text-center">Lesson No</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead className="hidden md:table-cell">
                       Description
@@ -134,7 +134,7 @@ export default function ManageLessons(): JSX.Element {
                 <TableBody>
                   {lessons?.map((lesson) => (
                     <TableRow key={lesson.lessonNo}>
-                      <TableCell className="font-medium">
+                      <TableCell className="text-center font-medium">
                         {lesson.lessonNo}
                       </TableCell>
                       <TableCell>{lesson.name}</TableCell>
