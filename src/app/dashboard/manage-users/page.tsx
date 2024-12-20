@@ -21,41 +21,11 @@ interface User {
 }
 
 const ManageUsersPage = () => {
-  const {
-    data: users,
-    isLoading,
-    isFetching,
-  } = useQuery<User[]>({
+  const { data: users, isLoading } = useQuery<User[]>({
     queryKey: ["users"],
     queryFn: async () => {
       const { users } = await getAllUsers();
       return users;
-    },
-  });
-
-  const { mutate: handleRoleUpdate, isPending } = useMutation<
-    { _id: string; role: "admin" | "user"; modifiedCount: number },
-    Error,
-    { _id: string; role: "admin" | "user" }
-  >({
-    mutationKey: ["update-role"],
-    mutationFn: async ({
-      _id,
-      role,
-    }: {
-      _id: string;
-      role: "admin" | "user";
-    }) => {
-      const res = await updateUserRole(_id, role);
-      return res;
-    },
-    onSuccess: (data) => {
-      if (data.modifiedCount) {
-        toast.success("Role updated successfully!");
-        queryClient.invalidateQueries({ queryKey: ["users"] });
-      } else {
-        toast.error("Something went wrong!");
-      }
     },
   });
 
@@ -83,50 +53,8 @@ const ManageUsersPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {users?.map((user) => (
-                <TableRow key={user._id}>
-                  <TableCell className="text-center font-medium">
-                    {users.indexOf(user) + 1}
-                  </TableCell>
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {user.email}
-                  </TableCell>
-                  <TableCell>
-                    <span
-                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${
-                        user.role === "admin"
-                          ? "bg-primary/10 text-primary"
-                          : "bg-muted text-muted-foreground"
-                      }`}
-                    >
-                      {user.role}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {user.role === "admin" ? (
-                      <button
-                        disabled={isPending || isFetching}
-                        onClick={() =>
-                          handleRoleUpdate({ _id: user._id, role: "user" })
-                        }
-                        className="inline-flex h-8 items-center rounded-md bg-destructive px-3 text-xs font-medium text-destructive-foreground hover:bg-destructive/90 disabled:pointer-events-none disabled:opacity-50"
-                      >
-                        Demote
-                      </button>
-                    ) : (
-                      <button
-                        disabled={isPending || isFetching}
-                        onClick={() =>
-                          handleRoleUpdate({ _id: user._id, role: "admin" })
-                        }
-                        className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
-                      >
-                        Promote
-                      </button>
-                    )}
-                  </TableCell>
-                </TableRow>
+              {users?.map((user: User, idx: number) => (
+                <TableRows key={user._id} user={user} idx={idx}></TableRows>
               ))}
             </TableBody>
           </Table>
@@ -137,3 +65,68 @@ const ManageUsersPage = () => {
 };
 
 export default ManageUsersPage;
+
+function TableRows({ user, idx }: { user: User; idx: number }) {
+  const { mutate: handleRoleUpdate, isPending } = useMutation<
+    { _id: string; role: "admin" | "user"; modifiedCount: number },
+    Error,
+    { _id: string; role: "admin" | "user" }
+  >({
+    mutationKey: ["update-role"],
+    mutationFn: async ({
+      _id,
+      role,
+    }: {
+      _id: string;
+      role: "admin" | "user";
+    }) => {
+      const res = await updateUserRole(_id, role);
+      return res;
+    },
+    onSuccess: (data) => {
+      if (data.modifiedCount) {
+        toast.success("Role updated successfully!");
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+      } else {
+        toast.error("Something went wrong!");
+      }
+    },
+  });
+  return (
+    <TableRow>
+      <TableCell className="text-center font-medium">{idx + 1}</TableCell>
+      <TableCell className="font-medium">{user.name}</TableCell>
+      <TableCell className="hidden md:table-cell">{user.email}</TableCell>
+      <TableCell>
+        <span
+          className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${
+            user.role === "admin"
+              ? "bg-primary/10 text-primary"
+              : "bg-muted text-muted-foreground"
+          }`}
+        >
+          {user.role}
+        </span>
+      </TableCell>
+      <TableCell className="text-center">
+        {user.role === "admin" ? (
+          <button
+            disabled={isPending}
+            onClick={() => handleRoleUpdate({ _id: user._id, role: "user" })}
+            className="inline-flex h-8 items-center rounded-md bg-destructive px-3 text-xs font-medium text-destructive-foreground hover:bg-destructive/90 disabled:pointer-events-none disabled:opacity-50"
+          >
+            Demote
+          </button>
+        ) : (
+          <button
+            disabled={isPending}
+            onClick={() => handleRoleUpdate({ _id: user._id, role: "admin" })}
+            className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+          >
+            Promote
+          </button>
+        )}
+      </TableCell>
+    </TableRow>
+  );
+}
