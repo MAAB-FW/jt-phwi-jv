@@ -35,7 +35,7 @@ export const PATCH = async (
         },
       }
     );
-    console.log("🚀 ~ res:", res);
+
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);
