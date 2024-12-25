@@ -1,5 +1,3 @@
-"use client";
-
 import { LessonPage } from "@/components/LessonPage";
 import React from "react";
 

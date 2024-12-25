@@ -1,3 +1,5 @@
+"use client";
+
 import { getVocabulariesOfLesson } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
