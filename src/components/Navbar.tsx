@@ -1,5 +1,6 @@
 "use client";
 
+import Logo from "@/app/favicon.ico";
 import { getUserInfo } from "@/services/getData";
 import { useQuery } from "@tanstack/react-query";
 import { signOut, useSession } from "next-auth/react";
@@ -35,11 +36,13 @@ const Navbar: React.FC = () => {
               className="flex text-2xl font-extrabold tracking-tight text-blue-400 transition-colors hover:text-blue-300"
             >
               <Image
-                src={"/favicon.ico"}
+                src={Logo}
                 alt="Nihongo Nexus"
                 width={25}
                 height={25}
                 className="-mr-px object-cover"
+                unoptimized
+                draggable={false}
               />
               ihongo Nexus
             </Link>
