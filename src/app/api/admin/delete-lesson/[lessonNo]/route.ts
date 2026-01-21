@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const DELETE = async (
   request: NextRequest,
-  { params }: { params: Promise<{ lessonNo: number }> }
+  { params }: { params: Promise<{ lessonNo: string }> }
 ) => {
   const db = await connectDB();
   const lessonNo = Number((await params).lessonNo);
